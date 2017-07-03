@@ -36,6 +36,13 @@ case class Polygon(val vertices: Vector[Vector3D])
      */
     lazy val edges = for { i <- 0 until vertices.size } yield edge(i)
     
+    /**
+     * The order of the vertices in the polygon. The polygons either form the shape in clockwise 
+     * or counterclockwise order
+     */
+    lazy val rotationDirection = RotationDirection((for { i <- 0 until vertices.size } yield 
+            rotation(i)).reduce { _ + _ });
+    
     
     // COMPUTED PROPERTIES    ---------
     
@@ -44,6 +51,14 @@ case class Polygon(val vertices: Vector[Vector3D])
      * included.
      */
     def axes = edges.map { _.vector.normal2D }.withDistinct { _ isParallelWith _ }
+    
+    /**
+     * Checks whether the polygon is convex. Convex polygons only need to turn clockwise or 
+     * counter-clockwise when traversing through the polygon. They don't have spikes or holes, 
+     * so to speak.
+     */
+    def isConvex = (for { i <- 0 until vertices.size } yield rotation(i)).forall { 
+            RotationDirection(_) != rotationDirection };
     
     
     // OTHER METHODS    ---------------
@@ -80,4 +95,15 @@ case class Polygon(val vertices: Vector[Vector3D])
      * @param the index of the edge / starting vertex (looping)
      */
     def edge(index: Int) = Line(vertex(index), vertex(index + 1))
+    
+    /**
+     * Returns a copy of this polygon with the specified rotation direction
+     */
+    def withRotationDirection(direction: RotationDirection) = 
+            if (rotationDirection == direction) this else Polygon(vertices.reverse);
+    
+    /**
+     * The rotation / angle between two edges connected to the specified vertex, in radians
+     */
+    private def rotation(index: Int) = edge(index + 1).vector.direction - edge(index).vector.direction
 }

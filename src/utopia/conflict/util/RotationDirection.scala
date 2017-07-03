@@ -23,22 +23,11 @@ object RotationDirection
     case object CounterClockwise extends RotationDirection
     
     
-    // OTHER METHODS    --------------
+    // OPERATORS    ------------------
     
     /**
-     * Finds the rotation direction that takes a 0 radians direction and to the specified direction 
-     * with less effort. Eg. Pi/2 would be clockwise as 3*Pi/2 would be counter-clockwise.
+     * Finds the appropriate rotation direction to describe the provided rotation amount. Positive 
+     * rotation is clockwise while negative is counter-clockwise
      */
-    def ofRadians(radians: Double): RotationDirection = 
-    {
-        val downscaled = radians % (2 * math.Pi)
-        val absolute = if (downscaled < 0) downscaled + 2 * math.Pi else downscaled
-        if (absolute <= math.Pi) Clockwise else CounterClockwise
-    }
-    
-    /**
-     * Finds the rotation direction that takes a 0 degrees direction and to the specified direction 
-     * with less effort. Eg. 90 degrees would be clockwise as 270 degrees would be counter-clockwise.
-     */
-    def ofDegrees(degrees: Double) = ofRadians(degrees.toRadians)
+    def apply(rotation: Double): RotationDirection = if (rotation < 0) CounterClockwise else Clockwise
 }
