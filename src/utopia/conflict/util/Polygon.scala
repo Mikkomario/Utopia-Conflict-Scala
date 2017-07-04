@@ -78,11 +78,7 @@ case class Polygon(val vertices: Vector[Vector3D])
             if (secondBrokenIndex >= 0)
             {
                 // If a second index was found, cuts the polygon between the two indices
-                val cutVertices = vertices.slice(firstBrokenIndex, secondBrokenIndex + 1)
-                val remainingVertices = vertices.take(firstBrokenIndex + 1) ++ vertices.drop(
-                        secondBrokenIndex);
-                
-                Polygon(cutVertices).convexParts ++ Polygon(remainingVertices).convexParts
+                cutBetween(firstBrokenIndex, secondBrokenIndex).flatMap { _.convexParts }
             }
             else 
             {
@@ -96,21 +92,14 @@ case class Polygon(val vertices: Vector[Vector3D])
                 
                 if (remainingOutcomeIndex >= 0)
                 {
-                    val cutVertices = vertices.slice(firstBrokenIndex, remainingOutcomeIndex + 1)
-                    val remainingVertices = vertices.take(firstBrokenIndex + 1) ++ vertices.drop(
-                            remainingOutcomeIndex);
-                    
-                    Polygon(cutVertices).convexParts ++ Polygon(remainingVertices).convexParts
+                    cutBetween(firstBrokenIndex, remainingOutcomeIndex).flatMap { _.convexParts }
                 }
                 else
                 {
                     val outcomeIndex = vertices.indexWhere { vertex => RotationDirection(
                         (vertex - brokenVertex).direction - incomeAngle) == rotationDirection }
                     
-                    val cutVertices = vertices.drop(firstBrokenIndex) ++ vertices.take(outcomeIndex + 1)
-                    val remainingVertices = vertices.slice(outcomeIndex, firstBrokenIndex + 1)
-                    
-                    Polygon(cutVertices).convexParts ++ Polygon(remainingVertices).convexParts
+                    cutBetween(outcomeIndex, firstBrokenIndex).flatMap { _.convexParts }
                 }
             }
         }
@@ -163,6 +152,20 @@ case class Polygon(val vertices: Vector[Vector3D])
      */
     def withRotationDirection(direction: RotationDirection) = 
             if (rotationDirection == direction) this else Polygon(vertices.reverse);
+    
+    /**
+     * Slices the polygon to two pieces. The cut is made between the two vertices so that both 
+     * polygon pieces will contain those vertices.
+     * @param index1 The index of the first common index (< index2 - 1)
+     * @param index2 The index of the second common index (> index 1 + 1)
+     * @return Two polygon pieces (vector of size 2)
+     */
+    def cutBetween(index1: Int, index2: Int) = 
+    {
+        val cutVertices = vertices.slice(index1, index2 + 1)
+        val remainingVertices = vertices.take(index1 + 1) ++ vertices.drop(index2)
+        Vector(Polygon(remainingVertices), Polygon(cutVertices))
+    }
     
     /**
      * The rotation / angle between two edges connected to the specified vertex, in radians
