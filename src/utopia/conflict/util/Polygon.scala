@@ -34,17 +34,21 @@ case class Polygon(val vertices: Vector[Vector3D])
     /**
      * The edges that form the sides of this polygon
      */
-    lazy val edges = for { i <- 0 until vertices.size } yield edge(i)
+    lazy val edges = for { i <- 0 until size } yield edge(i)
     
     /**
      * The order of the vertices in the polygon. The polygons either form the shape in clockwise 
      * or counterclockwise order
      */
-    lazy val rotationDirection = RotationDirection((for { i <- 0 until vertices.size } yield 
-            rotation(i)).reduce { _ + _ });
+    lazy val rotationDirection = RotationDirection(rotations.reduce { _ + _ })
     
     
     // COMPUTED PROPERTIES    ---------
+    
+    /**
+     * The amount of vertices in this polygon
+     */
+    def size = vertices.size
     
     /**
      * The collision axes of this polygon. Only axes that are not paraller with each other are 
@@ -57,8 +61,66 @@ case class Polygon(val vertices: Vector[Vector3D])
      * counter-clockwise when traversing through the polygon. They don't have spikes or holes, 
      * so to speak.
      */
-    def isConvex = (for { i <- 0 until vertices.size } yield rotation(i)).forall { 
-            RotationDirection(_) != rotationDirection };
+    def isConvex = rotations.forall { RotationDirection(_) != rotationDirection }
+    
+    def convexParts: Vector[Polygon] = 
+    {
+        // Finds the first non-convex index
+        val firstBrokenIndex = rotations.indexWhere { RotationDirection(_) != rotationDirection }
+        
+        if (firstBrokenIndex >= 0 && size > 2)
+        {
+            // Tries to find another (non-sequential) broken index
+            val secondBrokenIndex = if (firstBrokenIndex < size - 1) 
+                    rotations.indexWhere({ RotationDirection(_) != rotationDirection }, 
+                    firstBrokenIndex + 1) else -1;
+            
+            if (secondBrokenIndex >= 0)
+            {
+                // If a second index was found, cuts the polygon between the two indices
+                val cutVertices = vertices.slice(firstBrokenIndex, secondBrokenIndex + 1)
+                val remainingVertices = vertices.take(firstBrokenIndex + 1) ++ vertices.drop(
+                        secondBrokenIndex);
+                
+                Polygon(cutVertices).convexParts ++ Polygon(remainingVertices).convexParts
+            }
+            else 
+            {
+                // If there is only one broken index, cuts the polygon so that the part becomes convex
+                val brokenVertex = vertex(firstBrokenIndex)
+                val incomeAngle = edge(firstBrokenIndex - 1).vector.direction
+                
+                val remainingOutcomeIndex = if (firstBrokenIndex < size - 2) vertices.indexWhere( 
+                        vertex => { RotationDirection((vertex - brokenVertex).direction - 
+                        incomeAngle) == rotationDirection }, firstBrokenIndex + 2) else -1;
+                
+                if (remainingOutcomeIndex >= 0)
+                {
+                    val cutVertices = vertices.slice(firstBrokenIndex, remainingOutcomeIndex + 1)
+                    val remainingVertices = vertices.take(firstBrokenIndex + 1) ++ vertices.drop(
+                            remainingOutcomeIndex);
+                    
+                    Polygon(cutVertices).convexParts ++ Polygon(remainingVertices).convexParts
+                }
+                else
+                {
+                    val outcomeIndex = vertices.indexWhere { vertex => RotationDirection(
+                        (vertex - brokenVertex).direction - incomeAngle) == rotationDirection }
+                    
+                    val cutVertices = vertices.drop(firstBrokenIndex) ++ vertices.take(outcomeIndex + 1)
+                    val remainingVertices = vertices.slice(outcomeIndex, firstBrokenIndex + 1)
+                    
+                    Polygon(cutVertices).convexParts ++ Polygon(remainingVertices).convexParts
+                }
+            }
+        }
+        else 
+        {
+            Vector(this)
+        }
+    }
+    
+    private def rotations = for { i <- 0 until size } yield rotation(i)
     
     
     // OTHER METHODS    ---------------
