@@ -5,6 +5,7 @@ import utopia.genesis.util.Bounds
 import utopia.genesis.util.Line
 import scala.collection.mutable.ListBuffer
 import utopia.genesis.util.Extensions._
+import utopia.genesis.util.Circle
 
 /**
  * Polygons are used for representing more complicated shapes. Polygons only support 2D shapes on 
@@ -111,6 +112,31 @@ case class Polygon(val vertices: Vector[Vector3D])
         {
             Vector(this)
         }
+    }
+    
+    /**
+     * The middle-most point of the polygon
+     */
+    def center = Vector3D.average(vertices)
+    
+    /**
+     * The smallest possible circle that contains all the vertices in the polygon
+     */
+    def circleAround = 
+    {
+        val origin = center
+        val radius = vertices.map { vertex => (vertex - origin).length }.max
+        Circle(origin, radius)
+    }
+    
+    /**
+     * The largest possible circle that fits inside the polygon
+     */
+    def circleInside = 
+    {
+        val origin = center
+        val radius = vertices.map { vertex => (vertex - origin).length }.min
+        Circle(origin, radius)
     }
     
     private def rotations = for { i <- 0 until size } yield rotation(i)
