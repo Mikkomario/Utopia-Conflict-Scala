@@ -60,8 +60,6 @@ object PolygonTest extends App
     
     val parts2 = polygon2.convexParts // polygon2.cutBetween(1, 4)
     
-    println(parts2)
-    
     assert(parts2.size == 2)
     assert(parts2.forall { _.isConvex })
     assert(parts2.forall { _.size == 4 })

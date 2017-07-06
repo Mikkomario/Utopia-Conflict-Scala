@@ -70,11 +70,14 @@ case class Polygon(val vertices: Vector[Vector3D])
      */
     def convexParts: Vector[Polygon] = 
     {
-        // Finds the first non-convex index
-        val firstBrokenIndex = rotations.indexWhere { RotationDirection(_) != rotationDirection }
-        
-        if (firstBrokenIndex >= 0 && size > 2)
+        if (isConvex || size < 3)
         {
+            Vector(this)
+        }
+        else
+        {
+            val firstBrokenIndex = rotations.indexWhere { RotationDirection(_) != rotationDirection }
+            
             // Tries to find another (non-sequential) broken index
             val secondBrokenIndex = if (firstBrokenIndex < size - 1) 
                     rotations.indexWhere({ RotationDirection(_) != rotationDirection }, 
@@ -107,10 +110,6 @@ case class Polygon(val vertices: Vector[Vector3D])
                     cutBetween(outcomeIndex, firstBrokenIndex).flatMap { _.convexParts }
                 }
             }
-        }
-        else 
-        {
-            Vector(this)
         }
     }
     
@@ -241,5 +240,5 @@ case class Polygon(val vertices: Vector[Vector3D])
     /**
      * The rotation / angle between two edges connected to the specified vertex, in radians
      */
-    private def rotation(index: Int) = edge(index + 1).vector.direction - edge(index).vector.direction
+    private def rotation(index: Int) = edge(index).vector.direction - edge(index - 1).vector.direction
 }
