@@ -48,7 +48,7 @@ case class Polygon(val vertices: Vector[Vector3D])
      * counter-clockwise when traversing through the polygon. They don't have spikes or holes, 
      * so to speak.
      */
-    lazy val isConvex = rotations.forall { RotationDirection(_) != rotationDirection }
+    lazy val isConvex = rotations.forall { RotationDirection(_) == rotationDirection }
     
     
     // COMPUTED PROPERTIES    ---------
@@ -202,7 +202,12 @@ case class Polygon(val vertices: Vector[Vector3D])
      */
     def contains(point: Vector3D): Boolean = 
     {
-        if (size < 3)
+        if (vertices.contains(point))
+        {
+            // Has to check first if the checked point matches any of the vertices
+            true
+        }
+        else if (size < 3)
         {
             // Polygons with less than 3 vertices cannot contain any points
             false
@@ -219,8 +224,8 @@ case class Polygon(val vertices: Vector[Vector3D])
             val previousIndex = if (closestIndex > 0) closestIndex - 1 else size - 1
             
             val edge = if (vertexInfo(previousIndex)._2 < vertexInfo(nextIndex)._2) 
-                    Line(vertex(closestIndex), vertex(previousIndex)) else 
-                    Line(vertex(nextIndex), vertex(closestIndex));
+                    Line(vertex(previousIndex), vertex(closestIndex)) else 
+                    Line(vertex(closestIndex), vertex(nextIndex));
             
             // The polygon contains the point if adding another edge though the target point would 
             // make the polygon non-convex
