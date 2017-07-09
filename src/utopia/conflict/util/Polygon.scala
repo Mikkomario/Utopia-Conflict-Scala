@@ -8,6 +8,8 @@ import utopia.genesis.util.Extensions._
 import utopia.genesis.util.Circle
 import utopia.genesis.util.Area
 import utopia.genesis.util.ShapeConvertible
+import utopia.genesis.util.TransformableShape
+import utopia.genesis.util.Transformation
 
 /**
  * Polygons are used for representing more complicated shapes. Polygons only support 2D shapes on 
@@ -15,7 +17,8 @@ import utopia.genesis.util.ShapeConvertible
  * @author Mikko Hilpinen
  * @since 25.6.2017
  */
-case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConvertible
+case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConvertible with 
+        TransformableShape[Polygon]
 {
     // ATTRIBUTES    ------------------
     
@@ -194,6 +197,8 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     }
     
     override def contains2D(point: Vector3D) = contains(point)
+    
+    override def transformedWith(transformation: Transformation) = Polygon(vertices.map(transformation.apply))
     
     
     // OTHER METHODS    ---------------
