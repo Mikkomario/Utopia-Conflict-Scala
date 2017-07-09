@@ -6,6 +6,8 @@ import utopia.genesis.util.Line
 import scala.collection.mutable.ListBuffer
 import utopia.genesis.util.Extensions._
 import utopia.genesis.util.Circle
+import utopia.genesis.util.Area
+import utopia.genesis.util.ShapeConvertible
 
 /**
  * Polygons are used for representing more complicated shapes. Polygons only support 2D shapes on 
@@ -13,7 +15,7 @@ import utopia.genesis.util.Circle
  * @author Mikko Hilpinen
  * @since 25.6.2017
  */
-case class Polygon(val vertices: Vector[Vector3D])
+case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConvertible
 {
     // ATTRIBUTES    ------------------
     
@@ -52,6 +54,13 @@ case class Polygon(val vertices: Vector[Vector3D])
     
     
     // COMPUTED PROPERTIES    ---------
+    
+    override def toShape = 
+    {
+        val polygon = new java.awt.Polygon()
+        vertices.foreach { vertex => polygon.addPoint(vertex.x.toInt, vertex.y.toInt) }
+        polygon
+    }
     
     /**
      * The amount of vertices in this polygon
@@ -141,6 +150,52 @@ case class Polygon(val vertices: Vector[Vector3D])
     private def rotations = for { i <- 0 until size } yield rotation(i)
     
     
+    // IMPLEMENTED METHODS    ---------
+    
+    /**
+     * Checks whether the polygon contains the specified 2D point
+     */
+    override def contains(point: Vector3D): Boolean = 
+    {
+        if (vertices.contains(point))
+        {
+            // Has to check first if the checked point matches any of the vertices
+            true
+        }
+        else if (size < 3)
+        {
+            // Polygons with less than 3 vertices cannot contain any points
+            false
+        }
+        else if (isConvex)
+        {
+            // Contains only works for convex polygons
+            // Finds the vertex that is closest to the target point
+            val vertexInfo = for { i <- 0 until size } yield { (vertex(i), (vertex(i) - point).length, i) }
+            val closestIndex = vertexInfo.sortBy { _._2 }.head._3
+            
+            // Finds the edge that is closest to the target point
+            val nextIndex = if (closestIndex < size - 1) closestIndex + 1 else 0
+            val previousIndex = if (closestIndex > 0) closestIndex - 1 else size - 1
+            
+            val edge = if (vertexInfo(previousIndex)._2 < vertexInfo(nextIndex)._2) 
+                    Line(vertex(previousIndex), vertex(closestIndex)) else 
+                    Line(vertex(closestIndex), vertex(nextIndex));
+            
+            // The polygon contains the point if adding another edge though the target point would 
+            // make the polygon non-convex
+            RotationDirection((edge.end - point).direction - (point - edge.start).direction) != rotationDirection
+        }
+        else
+        {
+            // Non-convex polygons are divided into convex parts and then checked
+            convexParts.exists { _.contains(point) }
+        }
+    }
+    
+    override def contains2D(point: Vector3D) = contains(point)
+    
+    
     // OTHER METHODS    ---------------
     
     /**
@@ -194,47 +249,6 @@ case class Polygon(val vertices: Vector[Vector3D])
         val cutVertices = vertices.slice(index1, index2 + 1)
         val remainingVertices = vertices.take(index1 + 1) ++ vertices.drop(index2)
         Vector(Polygon(remainingVertices), Polygon(cutVertices))
-    }
-    
-    /**
-     * Checks whether the polygon contains the specified 2D point
-     */
-    def contains(point: Vector3D): Boolean = 
-    {
-        if (vertices.contains(point))
-        {
-            // Has to check first if the checked point matches any of the vertices
-            true
-        }
-        else if (size < 3)
-        {
-            // Polygons with less than 3 vertices cannot contain any points
-            false
-        }
-        else if (isConvex)
-        {
-            // Contains only works for convex polygons
-            // Finds the vertex that is closest to the target point
-            val vertexInfo = for { i <- 0 until size } yield { (vertex(i), (vertex(i) - point).length, i) }
-            val closestIndex = vertexInfo.sortBy { _._2 }.head._3
-            
-            // Finds the edge that is closest to the target point
-            val nextIndex = if (closestIndex < size - 1) closestIndex + 1 else 0
-            val previousIndex = if (closestIndex > 0) closestIndex - 1 else size - 1
-            
-            val edge = if (vertexInfo(previousIndex)._2 < vertexInfo(nextIndex)._2) 
-                    Line(vertex(previousIndex), vertex(closestIndex)) else 
-                    Line(vertex(closestIndex), vertex(nextIndex));
-            
-            // The polygon contains the point if adding another edge though the target point would 
-            // make the polygon non-convex
-            RotationDirection((edge.end - point).direction - (point - edge.start).direction) != rotationDirection
-        }
-        else
-        {
-            // Non-convex polygons are divided into convex parts and then checked
-            convexParts.exists { _.contains(point) }
-        }
     }
     
     /**
