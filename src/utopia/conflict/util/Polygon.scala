@@ -257,6 +257,22 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     }
     
     /**
+     * Projects this polygon over the specified axis, forming a line parallel with the axis
+     */
+    def projectedOver(axis: Vector3D) = 
+    {
+        if (vertices.isEmpty)
+        {
+            Line(Vector3D.zero, Vector3D.zero)
+        }
+        else
+        {
+            val projections = vertices.map { _ projectedOver axis }
+            Line(projections.reduce(Vector3D.min), projections.reduce(Vector3D.max))
+        }
+    }
+    
+    /**
      * The rotation / angle between two edges connected to the specified vertex, in radians
      */
     private def rotation(index: Int) = edge(index).vector.direction - edge(index - 1).vector.direction

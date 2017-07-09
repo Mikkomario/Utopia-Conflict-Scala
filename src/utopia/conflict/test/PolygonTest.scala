@@ -64,5 +64,8 @@ object PolygonTest extends App
     assert(parts2.forall { _.isConvex })
     assert(parts2.forall { _.size == 4 })
     
+    assert(polygon.projectedOver(Vector3D(1)) == Line(Vector3D.zero, Vector3D(3)))
+    assert(polygon.projectedOver(Vector3D(0, 1)) == Line(Vector3D.zero, Vector3D(0, 3)))
+    
     println("Success!")
 }
