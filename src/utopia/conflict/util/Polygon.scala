@@ -10,6 +10,7 @@ import utopia.genesis.util.Area
 import utopia.genesis.util.ShapeConvertible
 import utopia.genesis.util.TransformableShape
 import utopia.genesis.util.Transformation
+import utopia.conflict.util.Extensions._
 
 /**
  * Polygons are used for representing more complicated shapes. Polygons only support 2D shapes on 
@@ -175,7 +176,7 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
             // Contains only works for convex polygons
             // Finds the vertex that is closest to the target point
             val vertexInfo = for { i <- 0 until size } yield { (vertex(i), (vertex(i) - point).length, i) }
-            val closestIndex = vertexInfo.sortBy { _._2 }.head._3
+            val closestIndex = vertexInfo.minBy { _._2 }._3
             
             // Finds the edge that is closest to the target point
             val nextIndex = if (closestIndex < size - 1) closestIndex + 1 else 0
@@ -278,6 +279,30 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     private def rotation(index: Int) = edge(index).vector.direction - edge(index - 1).vector.direction
     
     /**
+     * Checks if there's collision between the two polygon instances. Returns collision data if 
+     * there is collision.
+     */
+    def checkCollisionWith(other: Polygon) = 
+    {
+        // Uses collision axes from both polygons, doesn't need to repeat parallel axes
+        val collisionAxes = (axes ++ other.axes).withDistinct { _ isParallelWith _ }
+        
+        // If there is collision, it must be on each axis
+        val mtvs = collisionAxes.mapOrFail { projectionOverlapWith(other, _) }
+        
+        if (mtvs.isDefined && !mtvs.get.isEmpty)
+        {
+            // Finds the smallest possible translation vector
+            val mtv = mtvs.get.minBy { _.length }
+            Some(new Collision(mtv, collisionPoints(other, mtv)))
+        }
+        else
+        {
+            None
+        }
+    }
+    
+    /**
      * Finds the collision points between two (colliding) polygons
      * @param other The other polygon
      * @param collisionNormal A normal 
@@ -308,17 +333,38 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         }
     }
     
+    // Calculates if / how much the projections of the two polygons overlap on the specified axis
+    // Returns the mtv for the specified axis, if there is overlap
+    // TODO: Also, this can be made a general method for a projectible trait
+    private def projectionOverlapWith(other: Polygon, axis: Vector3D) = 
+    {
+        val projection = projectedOver(axis)
+        val otherProjection = other.projectedOver(axis)
+        
+        if (projection.end < otherProjection.start || projection.start > otherProjection.end)
+        {
+            None
+        }
+        else 
+        {
+            val forwardsMtv = otherProjection.end - projection.start
+            val backwardsMtv = otherProjection.start - projection.end
+            
+            if (forwardsMtv.length < backwardsMtv.length) Some(forwardsMtv) else Some(backwardsMtv)
+        }
+    }
+    
     // Use minimum translation vector as normal (points towards this polygon from the collision area)
     // Doesn't work for polygons with < 2 vertices (surprise)
     private def collisionEdge(collisionNormal: Vector3D) = 
     {
         // Finds the vertex closest to the collision direction
         val closestVertexIndex = (for { i <- 0 until size } yield 
-                (i, vertex(i) dot collisionNormal)).sortBy { _._2 }.head._1
+                (i, vertex(i) dot collisionNormal)).minBy { _._2 }._1
                 
         // Uses the edge that is more perpendicular to the collision normal
         Vector(edge(closestVertexIndex - 1), edge(closestVertexIndex)
-                ).sortBy { _.vector dot collisionNormal }.head
+                ).minBy { _.vector dot collisionNormal }
     }
     
     // Calculates collision points between two polygon edges by using clipping
