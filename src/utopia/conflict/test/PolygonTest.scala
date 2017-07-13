@@ -6,6 +6,8 @@ import utopia.genesis.util.Vector3D
 import utopia.genesis.util.Line
 import utopia.conflict.util.RotationDirection.Clockwise
 import utopia.conflict.util.RotationDirection.CounterClockwise
+import utopia.conflict.util.Extensions._
+import utopia.genesis.util.Bounds
 
 /**
  * This test tests the basic polygon features
@@ -66,6 +68,27 @@ object PolygonTest extends App
     
     assert(polygon.projectedOver(Vector3D(1)) == Line(Vector3D.zero, Vector3D(3)))
     assert(polygon.projectedOver(Vector3D(0, 1)) == Line(Vector3D.zero, Vector3D(0, 3)))
+    
+    // Tests collision recognition
+    val outsideBox = Bounds(Vector3D(0, -2), Vector3D(1, 1))
+    
+    assert(polygon.checkCollisionWith(outsideBox) == None)
+    
+    val overlappingBox = Bounds(Vector3D(1, -1), Vector3D(1, 2))
+    val collision1 = overlappingBox.checkCollisionWith(polygon)
+    
+    assert(collision1.isDefined)
+    assert(collision1.get.mtv == Vector3D(0, -1))
+    
+    println(collision1.get.collisionPoints)
+    
+    val boxInside = Bounds(Vector3D(1.5, 1), Vector3D(1, 1))
+    val collision2 = boxInside.checkCollisionWith(polygon)
+    
+    assert(collision2.isDefined)
+    assert(collision2.get.mtv == Vector3D(1.5))
+    
+    println(collision2.get.collisionPoints)
     
     println("Success!")
 }

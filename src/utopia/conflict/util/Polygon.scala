@@ -311,6 +311,7 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     {
         if (size < 2 || other.size < 2)
         {
+            println("Too small polygons")
             // Collision checks don't work with < 2 vertex polygons
             Vector()
         }
@@ -319,6 +320,9 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
             // Finds the colliding edges
             val myCollisionEdge = collisionEdge(collisionNormal)
             val otherCollisionEdge = other.collisionEdge(-collisionNormal)
+            
+            // FIXME: Collision point calculation doesn't work
+            println(s"Collision edges: $myCollisionEdge and $otherCollisionEdge")
             
             // The reference edge is the one that is more perpendicular to the collision normal
             if (math.abs(myCollisionEdge.vector dot collisionNormal) <= 

@@ -1,5 +1,8 @@
 package utopia.conflict.util
 
+import utopia.genesis.util.Bounds
+import scala.language.implicitConversions
+
 /**
  * This object contains extensions that are used in the conflict project
  * @author Mikko Hilpinen
@@ -35,4 +38,7 @@ object Extensions
             Some(buffer.result())
         }
     }
+    
+    // Bounds can be represented as polygons where necessary
+    implicit def boundsToPolygon(bounds: Bounds) = Polygon(bounds.corners2D)
 }
