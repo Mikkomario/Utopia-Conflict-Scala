@@ -278,30 +278,26 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     
     /**
      * Checks if there's collision between the two polygon instances. Returns collision data if 
-     * there is collision.
+     * there is collision
      */
     def checkCollisionWith(other: Polygon) = 
     {
-        // Uses collision axes from both polygons, doesn't need to repeat parallel axes
-        val collisionAxes = (axes ++ other.axes).withDistinct { _ isParallelWith _ }
-        
-        // If there is collision, it must be on each axis
-        val mtvs = collisionAxes.mapOrFail { projectionOverlapWith(other, _) }
-        
-        if (mtvs.isDefined && !mtvs.get.isEmpty)
+        if (isConvex && other.isConvex)
         {
-            // Finds the smallest possible translation vector
-            val mtv = mtvs.get.minBy { _.length }
-            Some(new Collision(mtv, collisionPoints(other, mtv)))
+            checkCollisionWithConvex(other)
         }
         else
         {
-            None
+            val myParts = convexParts
+            val otherParts = other.convexParts
+            
+            myParts.flatMap { myPart => otherParts.flatMap { 
+                    myPart.checkCollisionWithConvex(_) } }.reduceOption { _ + _ }
         }
     }
     
     /**
-     * Finds the collision points between two (colliding) polygons
+     * Finds the collision points between two (colliding) <b>convex</b> polygons
      * @param other The other polygon
      * @param collisionNormal A normal for the collision plane, usually the minimum translation 
      * vector for this polygon 
@@ -329,6 +325,27 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
             {
                 other.clipCollisionPoints(otherCollisionEdge, myCollisionEdge, -collisionNormal)
             }
+        }
+    }
+    
+    // Only works with convex polygons, hence the name
+    private def checkCollisionWithConvex(other: Polygon) = 
+    {
+        // Uses collision axes from both polygons, doesn't need to repeat parallel axes
+        val collisionAxes = (axes ++ other.axes).withDistinct { _ isParallelWith _ }
+        
+        // If there is collision, it must be on each axis
+        val mtvs = collisionAxes.mapOrFail { projectionOverlapWith(other, _) }
+        
+        if (mtvs.isDefined && !mtvs.get.isEmpty)
+        {
+            // Finds the smallest possible translation vector
+            val mtv = mtvs.get.minBy { _.length }
+            Some(new Collision(mtv, collisionPoints(other, mtv)))
+        }
+        else
+        {
+            None
         }
     }
     

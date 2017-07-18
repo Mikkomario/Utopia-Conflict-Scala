@@ -15,8 +15,18 @@ import utopia.genesis.util.Vector3D
  */
 class Collision(val mtv: Vector3D, calculateCollisionPoints: => Vector[Vector3D])
 {   
+    // ATTRIBUTES    ---------------------
+    
     /**
      * The points where the two collision participants intersect
      */
     lazy val collisionPoints = calculateCollisionPoints
+    
+    
+    // OPERATORS    ----------------------
+    
+    /**
+     * Combines two collision information instances
+     */
+    def +(other: Collision) = new Collision(mtv + other.mtv, (collisionPoints ++ other.collisionPoints).distinct)
 }
