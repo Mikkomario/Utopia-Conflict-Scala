@@ -328,6 +328,36 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         }
     }
     
+    // TODO: This method should be moved to circle instead
+    /*
+    def collisionPoints(circle: Circle, mtv: Vector3D) = 
+    {
+        // The collision points form a line that cuts the circle in two pieces
+        // First finds out the vector from circle origin to where collision point line and the 
+        // translation vector / line intersect
+        val separatorLength = circle.radius - mtv.length
+        
+        if (separatorLength == 0)
+        {
+            // There's a special case where the collision point line runs through the circle origin
+            val normal = mtv.normal2D
+            Vector(circle.origin + normal.withLength(circle.radius), 
+                    circle.origin + normal.withLength(-circle.radius))
+        }
+        else
+        {
+            val separator = circle.origin + mtv.withLength(separatorLength)
+            
+            // Next calculates the length from the center of the line to the collision points using 
+            // Pythagoras and known radius (the collision point line is perpendicular to the separator line)
+            val normalLength = math.pow(circle.radius, 2) - math.pow(separatorLength, 2)
+            val separatorNormal = separator.normal2D
+            
+            Vector(circle.origin + separator + separatorNormal.withLength(normalLength), 
+                    circle.origin + separator + separatorNormal.withLength(-normalLength))
+        }
+    }*/
+    
     // Only works with convex polygons, hence the name
     private def checkCollisionWithConvex(other: Polygon) = 
     {
