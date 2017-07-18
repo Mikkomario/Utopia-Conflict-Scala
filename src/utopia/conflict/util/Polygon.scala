@@ -19,7 +19,7 @@ import utopia.conflict.util.Extensions._
  * @since 25.6.2017
  */
 case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConvertible with 
-        TransformableShape[Polygon]
+        TransformableShape[Polygon] with Projectable
 {
     // ATTRIBUTES    ------------------
     
@@ -201,6 +201,19 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     
     override def transformedWith(transformation: Transformation) = Polygon(vertices.map(transformation.apply))
     
+    override def projectedOver(axis: Vector3D) = 
+    {
+        if (vertices.isEmpty)
+        {
+            Line(Vector3D.zero, Vector3D.zero)
+        }
+        else
+        {
+            val projections = vertices.map { _ projectedOver axis }
+            Line(projections.reduce(Vector3D.min), projections.reduce(Vector3D.max))
+        }
+    }
+    
     
     // OTHER METHODS    ---------------
     
@@ -255,22 +268,6 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         val cutVertices = vertices.slice(index1, index2 + 1)
         val remainingVertices = vertices.take(index1 + 1) ++ vertices.drop(index2)
         Vector(Polygon(remainingVertices), Polygon(cutVertices))
-    }
-    
-    /**
-     * Projects this polygon over the specified axis, forming a line parallel with the axis
-     */
-    def projectedOver(axis: Vector3D) = 
-    {
-        if (vertices.isEmpty)
-        {
-            Line(Vector3D.zero, Vector3D.zero)
-        }
-        else
-        {
-            val projections = vertices.map { _ projectedOver axis }
-            Line(projections.reduce(Vector3D.min), projections.reduce(Vector3D.max))
-        }
     }
     
     /**
@@ -331,27 +328,6 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
             {
                 other.clipCollisionPoints(otherCollisionEdge, myCollisionEdge, -collisionNormal)
             }
-        }
-    }
-    
-    // Calculates if / how much the projections of the two polygons overlap on the specified axis
-    // Returns the mtv for the specified axis, if there is overlap
-    // TODO: Also, this can be made a general method for a projectible trait
-    private def projectionOverlapWith(other: Polygon, axis: Vector3D) = 
-    {
-        val projection = projectedOver(axis)
-        val otherProjection = other.projectedOver(axis)
-        
-        if (projection.end < otherProjection.start || projection.start > otherProjection.end)
-        {
-            None
-        }
-        else 
-        {
-            val forwardsMtv = otherProjection.end - projection.start
-            val backwardsMtv = otherProjection.start - projection.end
-            
-            if (forwardsMtv.length < backwardsMtv.length) Some(forwardsMtv) else Some(backwardsMtv)
         }
     }
     
