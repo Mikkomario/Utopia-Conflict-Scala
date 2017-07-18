@@ -2,6 +2,8 @@ package utopia.conflict.util
 
 import utopia.genesis.util.Bounds
 import scala.language.implicitConversions
+import utopia.genesis.util.Circle
+import utopia.genesis.util.Vector3D
 
 /**
  * This object contains extensions that are used in the conflict project

@@ -11,6 +11,7 @@ import utopia.genesis.util.ShapeConvertible
 import utopia.genesis.util.TransformableShape
 import utopia.genesis.util.Transformation
 import utopia.conflict.util.Extensions._
+import utopia.genesis.util.Projectable
 
 /**
  * Polygons are used for representing more complicated shapes. Polygons only support 2D shapes on 
