@@ -10,7 +10,6 @@ import utopia.genesis.util.Area
 import utopia.genesis.util.ShapeConvertible
 import utopia.genesis.util.TransformableShape
 import utopia.genesis.util.Transformation
-import utopia.conflict.util.Extensions._
 import utopia.genesis.util.Projectable
 
 /**
@@ -363,20 +362,9 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     {
         // Uses collision axes from both polygons, doesn't need to repeat parallel axes
         val collisionAxes = (axes ++ other.axes).withDistinct { _ isParallelWith _ }
+        val mtv = collisionMtvWith(other, collisionAxes)
         
-        // If there is collision, it must be on each axis
-        val mtvs = collisionAxes.mapOrFail { projectionOverlapWith(other, _) }
-        
-        if (mtvs.isDefined && !mtvs.get.isEmpty)
-        {
-            // Finds the smallest possible translation vector
-            val mtv = mtvs.get.minBy { _.length }
-            Some(new Collision(mtv, collisionPoints(other, mtv)))
-        }
-        else
-        {
-            None
-        }
+        mtv.map { mtv => new Collision(mtv, collisionPoints(other, mtv)) }
     }
     
     // Use minimum translation vector as normal (points towards this polygon from the collision area)
