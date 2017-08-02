@@ -338,6 +338,26 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     }
     
     /**
+     * Checks if there's collision between this polygon and the provided circle shape. Returns 
+     * collision data if there is a collision
+     */
+    def checkCollisionWith(circle: Circle) = 
+    {
+        val mtv = collisionMtvWith(circle, axes :+ (center - circle.origin))
+        mtv.map { new Collision(_, collisionPoints(circle).toVector) }
+    }
+    
+    /**
+     * Checks if there's collision between this polygon and a line segment. Returns collision data 
+     * if there is a collision
+     */
+    def checkCollisionWith(line: Line) = 
+    {
+        val mtv = collisionMtvWith(line, axes ++ line.collisionAxes)
+        mtv.map { mtv => new Collision(mtv, collisionPoints(line, mtv)) }
+    }
+    
+    /**
      * Finds the collision points between two (colliding) <b>convex</b> polygons
      * @param other The other polygon
      * @param collisionNormal A normal for the collision plane, usually the minimum translation 
@@ -356,8 +376,34 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         }
     }
     
-    // TODO: 1) Create collision point algorithms for lines and circles as well
-    // 2) Create collision check methods for those shapes too
+    /**
+     * Finds the collision points between this polygon and a circle. NB: This operation is somewhat 
+     * slow (O(n)) and should be used sparingly and only when a collision has already been recognised.
+     */
+    def collisionPoints(circle: Circle) = edges.flatMap { _.circleIntersection(circle) }
+    
+    /**
+     * Finds the collision points between this polygon and a line when collision normal (mtv) is 
+     * already known
+     * @param line any line
+     * @param collisionNormal a normal to the collision, pointing from the collision area towards 
+     * this polygon (ie. The collision mtv for this polygon)
+     */
+    def collisionPoints(line: Line, collisionNormal: Vector3D) = 
+    {
+        if (size < 2)
+        {
+            Vector()
+        }
+        else
+        {
+            // The collision edge always starts at the point closer to the collision area 
+            // (= more perpendicular to the collision normal)
+            val otherEdge = if (math.abs(line.start dot collisionNormal) < 
+                    math.abs(line.end dot collisionNormal)) line else line.reverse
+            edgeCollisionClip(otherEdge, collisionNormal)
+        }
+    }
     
     /**
      * Clips the collision points from two collision edges when the collision normal (mtv) is known
