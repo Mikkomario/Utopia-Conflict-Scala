@@ -12,6 +12,48 @@ import utopia.genesis.util.TransformableShape
 import utopia.genesis.util.Transformation
 import utopia.genesis.util.Projectable
 
+object Polygon
+{
+    // Calculates collision points between two polygon edges by using clipping
+    // ReferenceNormal is the collision normal (mtv) that from the collision area towards the 
+    // reference polygon
+    private def clipCollisionPoints(reference: Line, incident: Line, referenceNormal: Vector3D) = 
+    {
+        // First clips the incident edge from both sides
+        val clipped = incident.clipped(reference.start, reference.vector).flatMap 
+                { _.clipped(reference.end, -reference.vector) }
+        
+        if (clipped.isDefined)
+        {
+            // Also removes any points past the third side
+            val origin = reference.start dot referenceNormal
+            val startDistance = clipped.get.start.dot(referenceNormal) - origin
+            val endDistance = clipped.get.end.dot(referenceNormal) - origin
+            
+            if (startDistance < 0 && endDistance < 0)
+            {
+                Vector()
+            }
+            else if (startDistance < 0)
+            {
+                Vector(clipped.get.end)
+            }
+            else if (endDistance < 0)
+            {
+                Vector(clipped.get.start)
+            }
+            else
+            {
+                Vector(clipped.get.start, clipped.get.end)
+            }
+        }
+        else
+        {
+            Vector()
+        }
+    }
+}
+
 /**
  * Polygons are used for representing more complicated shapes. Polygons only support 2D shapes on 
  * the x-y -plane
@@ -310,20 +352,33 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         }
         else 
         {
-            // Finds the colliding edges
-            val myCollisionEdge = collisionEdge(collisionNormal)
-            val otherCollisionEdge = other.collisionEdge(-collisionNormal)
-            
-            // The reference edge is the one that is more perpendicular to the collision normal
-            if (math.abs(myCollisionEdge.vector dot collisionNormal) <= 
-                    math.abs(otherCollisionEdge.vector dot collisionNormal))
-            {
-                clipCollisionPoints(myCollisionEdge, otherCollisionEdge, collisionNormal)
-            }
-            else
-            {
-                other.clipCollisionPoints(otherCollisionEdge, myCollisionEdge, -collisionNormal)
-            }
+            edgeCollisionClip(other.collisionEdge(-collisionNormal), collisionNormal)
+        }
+    }
+    
+    // TODO: 1) Create collision point algorithms for lines and circles as well
+    // 2) Create collision check methods for those shapes too
+    
+    /**
+     * Clips the collision points from two collision edges when the collision normal (mtv) is known
+     * @param otherCollisionEdge the collision edge of the other shape in the collision
+     * @param collisionNormal a normal for the collision plane, from the collision area towards 
+     * this polygon instance (ie. the mtv for this polygon)
+     */
+    private def edgeCollisionClip(otherCollisionEdge: Line, collisionNormal: Vector3D) =
+    {
+        // Finds the remaining (own) collision edge
+        val myCollisionEdge = collisionEdge(collisionNormal)
+        
+        // The reference edge is the one that is more perpendicular to the collision normal
+        if (math.abs(myCollisionEdge.vector dot collisionNormal) <= 
+                math.abs(otherCollisionEdge.vector dot collisionNormal))
+        {
+            Polygon.clipCollisionPoints(myCollisionEdge, otherCollisionEdge, collisionNormal)
+        }
+        else
+        {
+            Polygon.clipCollisionPoints(otherCollisionEdge, myCollisionEdge, -collisionNormal)
         }
     }
     
@@ -349,44 +404,5 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         Vector(Line(vertex(closestVertexIndex), vertex(closestVertexIndex - 1)), 
                 Line(vertex(closestVertexIndex), vertex(closestVertexIndex + 1))
                 ).minBy { _.vector dot collisionNormal }
-    }
-    
-    // Calculates collision points between two polygon edges by using clipping
-    // ReferenceNormal is the collision normal (mtv) that from the collision area towards the 
-    // reference polygon
-    private def clipCollisionPoints(reference: Line, incident: Line, referenceNormal: Vector3D) = 
-    {
-        // First clips the incident edge from both sides
-        val clipped = incident.clipped(reference.start, reference.vector).flatMap 
-                { _.clipped(reference.end, -reference.vector) }
-        
-        if (clipped.isDefined)
-        {
-            // Also removes any points past the third side
-            val origin = reference.start dot referenceNormal
-            val startDistance = clipped.get.start.dot(referenceNormal) - origin
-            val endDistance = clipped.get.end.dot(referenceNormal) - origin
-            
-            if (startDistance < 0 && endDistance < 0)
-            {
-                Vector()
-            }
-            else if (startDistance < 0)
-            {
-                Vector(clipped.get.end)
-            }
-            else if (endDistance < 0)
-            {
-                Vector(clipped.get.start)
-            }
-            else
-            {
-                Vector(clipped.get.start, clipped.get.end)
-            }
-        }
-        else
-        {
-            Vector()
-        }
     }
 }
