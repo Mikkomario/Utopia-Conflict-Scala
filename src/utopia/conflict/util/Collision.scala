@@ -1,6 +1,8 @@
 package utopia.conflict.util
 
 import utopia.genesis.util.Vector3D
+import utopia.genesis.util.TransformableShape
+import utopia.genesis.util.Transformation
 
 /**
  * Collision instances contain information about a collision event
@@ -13,7 +15,8 @@ import utopia.genesis.util.Vector3D
  * involved in the collision event. The function is called when the points are requested for the 
  * first time
  */
-class Collision(val mtv: Vector3D, calculateCollisionPoints: => Vector[Vector3D])
+class Collision(val mtv: Vector3D, calculateCollisionPoints: => Vector[Vector3D]) extends 
+        TransformableShape[Collision]
 {   
     // ATTRIBUTES    ---------------------
     
@@ -26,7 +29,18 @@ class Collision(val mtv: Vector3D, calculateCollisionPoints: => Vector[Vector3D]
     // OPERATORS    ----------------------
     
     /**
+     * This collision from the opposite point of view
+     */
+    def unary_- = new Collision(-mtv, collisionPoints)
+    
+    /**
      * Combines two collision information instances
      */
     def +(other: Collision) = new Collision(mtv + other.mtv, (collisionPoints ++ other.collisionPoints).distinct)
+    
+    
+    // IMPLEMENTED METHODS    ------------
+    
+    override def transformedWith(transformation: Transformation) = new Collision(
+            transformation(mtv), collisionPoints.map { transformation(_) })
 }

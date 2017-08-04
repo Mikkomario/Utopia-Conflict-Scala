@@ -7,6 +7,7 @@ import utopia.genesis.util.TransformableShape
 import utopia.genesis.util.Transformation
 import utopia.genesis.util.Angle
 import utopia.genesis.util.Extensions._
+import utopia.conflict.util.Extensions._
 
 /**
  * Collision shapes are used when testing collisions between objects. The shapes may consist of 
@@ -46,9 +47,7 @@ class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(),
      * Converts the shape circle portions to polygons using as many edges as defined in 
      * <i>circleToPolygonEdges</i>
      */
-    def circlesAsPolygons = circles.map { circle => Polygon((
-                for { i <- 0 until circleToPolygonEdges } yield Vector3D.lenDir(circle.radius, 
-                new Angle(math.Pi * 2 * i / circleToPolygonEdges))).toVector) }
+    def circlesAsPolygons = circles.map { _.toPolygon(circleToPolygonEdges) }
     
     
     // IMPLEMENTED METHODS    ----------------
@@ -70,4 +69,50 @@ class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(),
             new CollisionShape(transformedPolygons ++ transformedCirclePolygons)
         }
     }
+    
+    
+    // OTHER METHODS    --------------------
+    
+    def checkCollisionWith(other: CollisionShape) = 
+    {
+        // If one of the shapes is complex, checks collision between bounding boxes first
+        if (isMultiPart || other.isMultiPart)
+        {
+            // Collision between bounding boxes -> check continues
+            if (checkBoundsCollisionWith(other).isDefined)
+            {
+                // First checks collisions between polygon parts, where applicable
+                val polygonCollision = checkPolygonCollisionWith(other)
+                        
+                if (polygonCollision.isDefined)
+                {
+                    polygonCollision
+                }
+                else
+                {
+                    // Next checks between circles, where applicable
+                    val circleCollision = checkCircleCollisionWith(other)
+                    
+                    if (circleCollision.isDefined)
+                    {
+                        circleCollision
+                    }
+                    else 
+                    {
+                        // Last checks collisions between circles and polygons
+                    }
+                }
+            }
+        }
+    }
+    
+    private def checkBoundsCollisionWith(other: CollisionShape) = bounds.checkCollisionWith(other.bounds)
+    
+    // TODO: Instead of combining the collisions, one could filter only those which push the shapes apart
+    private def checkPolygonCollisionWith(other: CollisionShape) = convexPolygons.flatMap { 
+            myPolygon => other.convexPolygons.flatMap { 
+            myPolygon.checkCollisionWithConvex(_) } }.reduceOption { _ + _ }
+            
+    private def checkCircleCollisionWith(other: CollisionShape) = circles.flatMap { 
+            myCircle => other.circles.flatMap { myCircle.checkCollisionWith(_) } }.reduceOption { _ + _ }
 }

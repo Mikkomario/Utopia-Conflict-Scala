@@ -338,6 +338,19 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     }
     
     /**
+     * Checks if there's collision between the two polygon instances. Returns collision data if 
+     * there is collision. <b>Only works with convex polygons</b>
+     */
+    def checkCollisionWithConvex(other: Polygon) = 
+    {
+        // Uses collision axes from both polygons, doesn't need to repeat parallel axes
+        val collisionAxes = (axes ++ other.axes).withDistinct { _ isParallelWith _ }
+        val mtv = collisionMtvWith(other, collisionAxes)
+        
+        mtv.map { mtv => new Collision(mtv, collisionPoints(other, mtv)) }
+    }
+    
+    /**
      * Checks if there's collision between this polygon and the provided circle shape. Returns 
      * collision data if there is a collision
      */
@@ -426,16 +439,6 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         {
             Polygon.clipCollisionPoints(otherCollisionEdge, myCollisionEdge, -collisionNormal)
         }
-    }
-    
-    // Only works with convex polygons, hence the name
-    private def checkCollisionWithConvex(other: Polygon) = 
-    {
-        // Uses collision axes from both polygons, doesn't need to repeat parallel axes
-        val collisionAxes = (axes ++ other.axes).withDistinct { _ isParallelWith _ }
-        val mtv = collisionMtvWith(other, collisionAxes)
-        
-        mtv.map { mtv => new Collision(mtv, collisionPoints(other, mtv)) }
     }
     
     // Use minimum translation vector as normal (points towards this polygon from the collision area)
