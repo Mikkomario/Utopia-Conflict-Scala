@@ -82,9 +82,10 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     lazy val bounds = Bounds.between(min, max)
     
     /**
-     * The edges that form the sides of this polygon
+     * The edges that form the sides of this polygon. A polygon of two vertices contains only a 
+     * single edge while larger polygons contain same amount of edges as vertices.
      */
-    lazy val edges = for { i <- 0 until size } yield edge(i)
+    lazy val edges = if (size == 2) Vector(edge(0)) else for { i <- 0 until size } yield edge(i)
     
     /**
      * The order of the vertices in the polygon. The polygons either form the shape in clockwise 
@@ -118,7 +119,7 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
      * The collision axes of this polygon. Only axes that are not paraller with each other are 
      * included.
      */
-    def axes = edges.map { _.vector.normal2D }.withDistinct { _ isParallelWith _ }
+    def axes = if (size == 2) edge(0).collisionAxes else edges.map { _.vector.normal2D }.withDistinct { _ isParallelWith _ }
     
     /**
      * Divides this polygon into convex portions. Each of the returned parts is convex and can 
