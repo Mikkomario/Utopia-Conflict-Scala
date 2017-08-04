@@ -11,6 +11,7 @@ import utopia.genesis.util.ShapeConvertible
 import utopia.genesis.util.TransformableShape
 import utopia.genesis.util.Transformation
 import utopia.genesis.util.Projectable
+import utopia.conflict.util.Extensions._
 
 object Polygon
 {
@@ -352,12 +353,27 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     
     /**
      * Checks if there's collision between this polygon and the provided circle shape. Returns 
-     * collision data if there is a collision
+     * collision data if there is a collision. The collision points are calculated by iterating 
+     * through each of the polygon's edges, which is very taxing. If the accuracy of the collision 
+     * points is less important, you should use <i>checkApproximateCollisionWith(Circle, Int)</i> instead
      */
     def checkCollisionWith(circle: Circle) = 
     {
         val mtv = collisionMtvWith(circle, axes :+ (center - circle.origin))
         mtv.map { new Collision(_, collisionPoints(circle).toVector) }
+    }
+    
+    /**
+     * Checks if there's collision between this polygon and the provided circle shape. Returns 
+     * collision data if there is a collision. The collision points are approximated by transforming 
+     * the circle into a polygon. They are not as accurate but are also less taxing to calculate. If 
+     * the accuracy of the collision points is very important, you might want to use 
+     * <i>checkCollisionWith(Circle)</i> instead.
+     */
+    def checkApproximateCollisionWith(circle: Circle, circleToPolygonEdges: Int = 12) = 
+    {
+        val mtv = collisionMtvWith(circle, axes :+ (center - circle.origin))
+        mtv.map { mtv => new Collision(mtv, collisionPoints(circle.toPolygon(circleToPolygonEdges), mtv)) }
     }
     
     /**

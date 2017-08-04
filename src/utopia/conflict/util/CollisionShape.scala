@@ -73,36 +73,28 @@ class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(),
     
     // OTHER METHODS    --------------------
     
+    /**
+     * Makes a collision check between the two shapes. Returns collision data if there is a collision. 
+     * Doesn't always check all of the parts of the shapes if has found a collision between other parts already
+     */
     def checkCollisionWith(other: CollisionShape) = 
     {
-        // If one of the shapes is complex, checks collision between bounding boxes first
-        if (isMultiPart || other.isMultiPart)
+        // For multipart collisionShapes, bounds must be in collision for the check to continue
+        if ((!isMultiPart && !other.isMultiPart) || checkBoundsCollisionWith(other).isDefined)
         {
-            // Collision between bounding boxes -> check continues
-            if (checkBoundsCollisionWith(other).isDefined)
-            {
-                // First checks collisions between polygon parts, where applicable
-                val polygonCollision = checkPolygonCollisionWith(other)
-                        
-                if (polygonCollision.isDefined)
-                {
-                    polygonCollision
-                }
-                else
-                {
-                    // Next checks between circles, where applicable
-                    val circleCollision = checkCircleCollisionWith(other)
-                    
-                    if (circleCollision.isDefined)
-                    {
-                        circleCollision
-                    }
-                    else 
-                    {
-                        // Last checks collisions between circles and polygons
-                    }
-                }
-            }
+            // Check order:
+            // 1) Polygons
+            // 2) Circles
+            // 3) Polygons to circles
+            // 4) Circles to polygons
+            checkPolygonCollisionWith(other).orElse(
+                    checkCircleCollisionWith(other)).orElse(
+                    checkPolygonToCircleCollisionWith(other)).orElse(
+                    checkCircleToPolygonCollisionWith(other))
+        }
+        else
+        {
+            None
         }
     }
     
@@ -115,4 +107,11 @@ class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(),
             
     private def checkCircleCollisionWith(other: CollisionShape) = circles.flatMap { 
             myCircle => other.circles.flatMap { myCircle.checkCollisionWith(_) } }.reduceOption { _ + _ }
+            
+    private def checkPolygonToCircleCollisionWith(other: CollisionShape) = convexPolygons.flatMap { 
+            myPolygon => other.circles.flatMap { myPolygon.checkApproximateCollisionWith(_, 
+            other.circleToPolygonEdges) } }.reduceOption { _ + _ }
+            
+    private def checkCircleToPolygonCollisionWith(other: CollisionShape) = 
+            other.checkPolygonToCircleCollisionWith(this).map { -_ }
 }
