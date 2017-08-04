@@ -34,7 +34,7 @@ object Extensions
          * will be.
          */
         def toPolygon(edgeAmount: Int) = Polygon((
-                for { i <- 0 until edgeAmount } yield Vector3D.lenDir(c.radius, 
+                for { i <- 0 until edgeAmount } yield c.origin + Vector3D.lenDir(c.radius, 
                 new Angle(math.Pi * 2 * i / edgeAmount))).toVector)
     }
 }

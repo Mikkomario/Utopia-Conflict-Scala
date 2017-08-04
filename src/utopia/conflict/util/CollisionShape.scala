@@ -9,6 +9,23 @@ import utopia.genesis.util.Angle
 import utopia.genesis.util.Extensions._
 import utopia.conflict.util.Extensions._
 
+object CollisionShape
+{
+    /**
+     * Wraps a polygon into a collision shape
+     */
+    def apply(polygon: Polygon) = new CollisionShape(polygon.convexParts)
+    
+    /**
+     * Wraps a circle into a collision shape with the specified precision
+     * @param circle the circle that is wrapped
+     * @param circleToPolygonEdges the amount of edges used when approximating a circle or an ellipsoid 
+ 	 * with a polygon
+     */
+    def apply(circle: Circle, circleToPolygonEdges: Int = 12) = new CollisionShape(
+            circles = Vector(circle), circleToPolygonEdges = circleToPolygonEdges)
+}
+
 /**
  * Collision shapes are used when testing collisions between objects. The shapes may consist of 
  * polygons and / or circles. A bounding box is also provided
