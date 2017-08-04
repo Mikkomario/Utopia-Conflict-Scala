@@ -18,4 +18,9 @@ trait Collidable extends Handleable
      * The current shape of the collidable instance.
      */
     def collisionShape: CollisionShape
+    
+    /**
+     * The collision groups this collidable instance should be associated with
+     */
+    def collisionGroups: Set[CollisionGroup]
 }
