@@ -35,7 +35,7 @@ object CollisionTest extends App
     actorThread.handler += collisionHandler
     
     val handlers = new HandlerRelay(canvas.handler, actorThread.handler, mouseEventGen.moveHandler, 
-            collidableHandler, collisionHandler)
+            mouseEventGen.buttonStateHandler, collidableHandler, collisionHandler)
     
     val simplePolygon = Polygon(Vector(Vector3D(-32, -32), Vector3D(0, 64), Vector3D(32, 32), Vector3D.zero))
     
@@ -47,12 +47,14 @@ object CollisionTest extends App
     val mouseObstacle = new MousePolygonObstacle(Bounds(Vector3D(-32, -32), Vector3D(64, 64)))
     
     val collisionDrawer = new CollisionDrawer(mouseObstacle)
+    val projectionDrawer = new ProjectionDrawer(Circle(worldSize / 2, 128))
     
     handlers += obstacle1
     handlers += obstacle2
     handlers += obstacle3
     handlers += mouseObstacle
     handlers += collisionDrawer
+    handlers += projectionDrawer
     
     /*
     val grid = new GridDrawer(worldSize, Vector3D(80, 80))
