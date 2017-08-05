@@ -70,6 +70,6 @@ class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButto
     {
         // Creates a new projection
         mouseLine = Line(lastClickPosition, event.mousePosition)
-        projection = /*Transformation.translation(lastClickPosition)(*/target.projectedOver(mouseLine.vector)//)
+        projection = Transformation.translation(lastClickPosition)(target.projectedOver(mouseLine.vector))
     }
 }

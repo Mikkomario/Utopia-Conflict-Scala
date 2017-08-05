@@ -38,8 +38,9 @@ object CollisionTest extends App
             mouseEventGen.buttonStateHandler, collidableHandler, collisionHandler)
     
     val simplePolygon = Polygon(Vector(Vector3D(-32, -32), Vector3D(0, 64), Vector3D(32, 32), Vector3D.zero))
+    val transformedPolygon = Transformation.translation(worldSize / 2).scaled(2)(simplePolygon)
     
-    val obstacle1 = new TestPolygonObstacle(Transformation.translation(worldSize / 2).scaled(2)(simplePolygon))
+    val obstacle1 = new TestPolygonObstacle(transformedPolygon)
     val obstacle2 = new TestPolygonObstacle(Circle(Vector3D(96, 228), 64).toPolygon(12))
     val obstacle3 = new TestPolygonObstacle(Bounds(worldSize - Vector3D(128, 128), Vector3D(64, 64)))
     
@@ -47,7 +48,7 @@ object CollisionTest extends App
     val mouseObstacle = new MousePolygonObstacle(Bounds(Vector3D(-32, -32), Vector3D(64, 64)))
     
     val collisionDrawer = new CollisionDrawer(mouseObstacle)
-    val projectionDrawer = new ProjectionDrawer(Circle(worldSize / 2, 128))
+    val projectionDrawer = new ProjectionDrawer(transformedPolygon)
     
     handlers += obstacle1
     handlers += obstacle2

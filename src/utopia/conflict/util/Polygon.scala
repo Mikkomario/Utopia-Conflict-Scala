@@ -53,6 +53,29 @@ object Polygon
             Vector()
         }
     }
+    
+    // Checks whether the first vector is smaller than the second vector (axis priority: x > y > z)
+    private def compare(v1: Vector3D, v2: Vector3D) = 
+    {
+        if (v1.x == v2.x)
+        {
+            if (v1.y == v2.y)
+            {
+                v1.z < v2.z
+            }
+            else
+            {
+                v1.y < v2.y
+            }
+        }
+        else 
+        {
+            v1.x < v2.x
+        }
+    }
+    
+    private def min(v1: Vector3D, v2: Vector3D) = if (compare(v1, v2)) v1 else v2
+    private def max(v1: Vector3D, v2: Vector3D) = if (compare(v1, v2)) v2 else v1
 }
 
 /**
@@ -247,6 +270,7 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     
     override def projectedOver(axis: Vector3D) = 
     {
+        // FIXME: This is not working correctly at this time
         if (vertices.isEmpty)
         {
             Line(Vector3D.zero, Vector3D.zero)
@@ -254,7 +278,7 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         else
         {
             val projections = vertices.map { _ projectedOver axis }
-            Line(projections.reduce(Vector3D.min), projections.reduce(Vector3D.max))
+            Line(projections.reduce(Polygon.min), projections.reduce(Polygon.max))
         }
     }
     
