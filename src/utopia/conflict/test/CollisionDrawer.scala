@@ -46,18 +46,23 @@ class CollisionDrawer(target: Collidable, listenGroups: Option[Set[CollisionGrou
     
     override def onCollision(collisions: Vector[Tuple2[Collidable, Collision]], durationMillis: Double) = 
     {
-        // Only uses the first collision data
-        val collision = collisions.head._2
-        collisionPoints = collision.collisionPoints
+        println(s"Collides with ${collisions.size} instances")
         
-        if (collisionPoints.isEmpty)
+        // Only uses the first collision data
+        val collision = collisions.find { _._1 != target }.map { _._2 }
+        if (collision.isDefined)
         {
-            mtv = Line(Vector3D.zero, Vector3D.zero)
-        }
-        else
-        {
-            val mtvStart = Vector3D.average(collisionPoints)
-            mtv = Line(mtvStart, mtvStart - collision.mtv)
+            collisionPoints = collision.get.collisionPoints
+            
+            if (collisionPoints.isEmpty)
+            {
+                mtv = Line(Vector3D.zero, Vector3D.zero)
+            }
+            else
+            {
+                val mtvStart = Vector3D.average(collisionPoints)
+                mtv = Line(mtvStart, mtvStart + collision.get.mtv)
+            }
         }
     }
 }

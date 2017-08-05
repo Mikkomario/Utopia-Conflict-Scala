@@ -12,6 +12,7 @@ import utopia.conflict.util.Extensions._
 import utopia.genesis.util.Circle
 import utopia.conflict.collision.CollidableHandler
 import utopia.conflict.collision.CollisionHandler
+import utopia.genesis.util.Bounds
 
 /**
  * This test visually displays collision data with interactive elements
@@ -40,13 +41,16 @@ object CollisionTest extends App
     
     val obstacle1 = new TestPolygonObstacle(Transformation.translation(worldSize / 2).scaled(2)(simplePolygon))
     val obstacle2 = new TestPolygonObstacle(Circle(Vector3D(96, 228), 64).toPolygon(12))
+    val obstacle3 = new TestPolygonObstacle(Bounds(worldSize - Vector3D(128, 128), Vector3D(64, 64)))
     
-    val mouseObstacle = new MousePolygonObstacle(Polygon(Vector(Vector3D(24), Vector3D(0, -24), Vector3D(-24), Vector3D(0, 24))))
+    // val mouseObstacle = new MousePolygonObstacle(Polygon(Vector(Vector3D(24), Vector3D(0, -24), Vector3D(-24), Vector3D(0, 24))))
+    val mouseObstacle = new MousePolygonObstacle(Bounds(Vector3D(-32, -32), Vector3D(64, 64)))
     
     val collisionDrawer = new CollisionDrawer(mouseObstacle)
     
     handlers += obstacle1
     handlers += obstacle2
+    handlers += obstacle3
     handlers += mouseObstacle
     handlers += collisionDrawer
     
