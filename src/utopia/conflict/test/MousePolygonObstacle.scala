@@ -29,7 +29,7 @@ class MousePolygonObstacle(private val relativePolygon: Polygon) extends Collida
     
     override def collisionShape = currentTransformation.toAbsolute(relativeCollisionShape)
     
-    override def collisionGroups = HashSet(Obstacle, UserInput)
+    override def collisionGroups = HashSet(UserInput)
     
     
     // IMPLEMENTED METHODS    --------
