@@ -126,8 +126,7 @@ class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(),
             myCircle => other.circles.flatMap { myCircle.checkCollisionWith(_) } }.reduceOption { _ + _ }
             
     private def checkPolygonToCircleCollisionWith(other: CollisionShape) = convexPolygons.flatMap { 
-            myPolygon => other.circles.flatMap { myPolygon.checkApproximateCollisionWith(_, 
-            other.circleToPolygonEdges) } }.reduceOption { _ + _ }
+            myPolygon => other.circles.flatMap { myPolygon.checkCollisionWith(_) } }.reduceOption { _ + _ }
             
     private def checkCircleToPolygonCollisionWith(other: CollisionShape) = 
             other.checkPolygonToCircleCollisionWith(this).map { -_ }
