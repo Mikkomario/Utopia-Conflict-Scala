@@ -28,8 +28,8 @@ object PolygonTest extends App
     assert(polygon.edge(0) == Line(Vector3D.zero, Vector3D(3)))
     
     // Tests other computed properties
-    assert(polygon.min == Vector3D.zero)
-    assert(polygon.max == Vector3D(3, 3))
+    assert(polygon.topLeft == Vector3D.zero)
+    assert(polygon.bottomRight == Vector3D(3, 3))
     
     assert(polygon.rotationDirection == Clockwise)
     assert(polygon.isConvex)

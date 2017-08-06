@@ -53,29 +53,6 @@ object Polygon
             Vector()
         }
     }
-    
-    // Checks whether the first vector is smaller than the second vector (axis priority: x > y > z)
-    private def compare(v1: Vector3D, v2: Vector3D) = 
-    {
-        if (v1.x == v2.x)
-        {
-            if (v1.y == v2.y)
-            {
-                v1.z < v2.z
-            }
-            else
-            {
-                v1.y < v2.y
-            }
-        }
-        else 
-        {
-            v1.x < v2.x
-        }
-    }
-    
-    private def min(v1: Vector3D, v2: Vector3D) = if (compare(v1, v2)) v1 else v2
-    private def max(v1: Vector3D, v2: Vector3D) = if (compare(v1, v2)) v2 else v1
 }
 
 /**
@@ -92,17 +69,17 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     /**
      * The top left corner of a bounding box around this polygon
      */
-    lazy val min = Vector3D.min(vertices).getOrElse(Vector3D.zero)
+    lazy val topLeft = Vector3D.topLeft(vertices).getOrElse(Vector3D.zero)
     
     /**
      * The bottom right corner of a bounding box around this polygon
      */
-    lazy val max = Vector3D.max(vertices).getOrElse(Vector3D.zero)
+    lazy val bottomRight = Vector3D.bottomRight(vertices).getOrElse(Vector3D.zero)
     
     /**
      * A bounding box around this polygon. All of the polygon's points lay inside its bounds
      */
-    lazy val bounds = Bounds.between(min, max)
+    lazy val bounds = Bounds.between(topLeft, bottomRight)
     
     /**
      * The edges that form the sides of this polygon. A polygon of two vertices contains only a 
@@ -270,7 +247,6 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
     
     override def projectedOver(axis: Vector3D) = 
     {
-        // FIXME: This is not working correctly at this time
         if (vertices.isEmpty)
         {
             Line(Vector3D.zero, Vector3D.zero)
@@ -278,7 +254,7 @@ case class Polygon(val vertices: Vector[Vector3D]) extends Area with ShapeConver
         else
         {
             val projections = vertices.map { _ projectedOver axis }
-            Line(projections.reduce(Polygon.min), projections.reduce(Polygon.max))
+            Line(projections.reduce(Vector3D.min), projections.reduce(Vector3D.max))
         }
     }
     
