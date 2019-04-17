@@ -1,8 +1,8 @@
 package utopia.conflict.util
 
-import utopia.genesis.util.Vector3D
-import utopia.genesis.util.TransformableShape
-import utopia.genesis.util.Transformation
+import utopia.flow.util.Equatable
+import utopia.genesis.shape.Vector3D
+import utopia.genesis.shape.shape2D.{Point, TransformableShape, Transformation}
 
 /**
  * Collision instances contain information about a collision event
@@ -15,15 +15,20 @@ import utopia.genesis.util.Transformation
  * involved in the collision event. The function is called when the points are requested for the 
  * first time
  */
-class Collision(val mtv: Vector3D, calculateCollisionPoints: => Vector[Vector3D]) extends 
-        TransformableShape[Collision]
-{   
+class Collision(val mtv: Vector3D, calculateCollisionPoints: => Vector[Point]) extends TransformableShape[Collision]
+    with Equatable
+{
     // ATTRIBUTES    ---------------------
     
     /**
      * The points where the two collision participants intersect
      */
     lazy val collisionPoints = calculateCollisionPoints
+    
+    
+    // IMPLEMENTED  ----------------------
+    
+    override def properties = Vector(mtv, collisionPoints)
     
     
     // OPERATORS    ----------------------

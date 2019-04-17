@@ -1,6 +1,6 @@
 package utopia.conflict.test
 
-import utopia.conflict.collision.CollisionGroup
+import utopia.conflict.handling.CollisionGroup
 
 /**
  * These are the collision groups used in conflict specific tests

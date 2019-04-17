@@ -1,5 +1,6 @@
 package utopia.conflict.collision
 
+import utopia.conflict.handling.CollisionListener
 import utopia.inception.handling.HandlerType
 import utopia.inception.handling.Handler
 import utopia.genesis.event.Actor

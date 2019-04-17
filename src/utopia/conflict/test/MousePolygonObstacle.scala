@@ -1,9 +1,10 @@
 package utopia.conflict.test
 
+import utopia.conflict.handling.Collidable
 import utopia.conflict.util.Polygon
 import utopia.genesis.util.Transformation
 import utopia.conflict.util.CollisionShape
-import utopia.conflict.collision.Collidable
+
 import scala.collection.immutable.HashSet
 import utopia.conflict.test.TestCollisionGroups.Obstacle
 import utopia.conflict.test.TestCollisionGroups.UserInput

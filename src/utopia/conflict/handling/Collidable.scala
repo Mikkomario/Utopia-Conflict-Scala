@@ -1,9 +1,7 @@
-package utopia.conflict.collision
+package utopia.conflict.handling
 
-import utopia.inception.handling.Handleable
 import utopia.conflict.util.CollisionShape
-import utopia.genesis.util.Transformation
-import utopia.conflict.util.Extensions._
+import utopia.inception.handling.Handleable
 
 /**
  * Collidable instances can be collided with, they have a specific collision shape

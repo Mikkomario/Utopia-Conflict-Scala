@@ -1,20 +1,16 @@
 package utopia.conflict.util
 
-import utopia.genesis.util.Circle
-import utopia.genesis.util.Bounds
-import utopia.genesis.util.Vector3D
-import utopia.genesis.util.TransformableShape
-import utopia.genesis.util.Transformation
-import utopia.genesis.util.Angle
-import utopia.genesis.util.Extensions._
+import utopia.genesis.shape.shape2D.{Bounds, Circle, Polygonic, TransformableShape, Transformation}
 import utopia.conflict.util.Extensions._
+import utopia.genesis.util.Extensions._
+import utopia.genesis.shape.Vector3D
 
 object CollisionShape
 {
     /**
      * Wraps a polygon into a collision shape
      */
-    def apply(polygon: Polygon) = new CollisionShape(polygon.convexParts)
+    def apply(polygon: Polygonic) = new CollisionShape(polygon.convexParts)
     
     /**
      * Wraps a circle into a collision shape with the specified precision
@@ -38,9 +34,8 @@ object CollisionShape
  * @param circleToPolygonEdges the amount of edges used when approximating a circle or an ellipsoid 
  * with a polygon
  */
-class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(), 
-        val circles: Vector[Circle] = Vector(), val circleToPolygonEdges: Int = 12) 
-        extends TransformableShape[CollisionShape]
+case class CollisionShape(convexPolygons: Vector[Polygonic] = Vector(), circles: Vector[Circle] = Vector(),
+                          circleToPolygonEdges: Int = 12) extends TransformableShape[CollisionShape]
 {
     // ATTRIBUTES    -------------------------
     
@@ -48,8 +43,7 @@ class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(),
      * A bounding box around the whole shape. It is recommended that a bounding box is checked 
      * for multipart shapes when performing complex operations.
      */
-    lazy val bounds = Bounds.around(convexPolygons.map { _.bounds } ++ circles.map(Bounds.around)
-            ).getOrElse(Bounds(Vector3D.zero, Vector3D.zero))
+    lazy val bounds = Bounds.around(convexPolygons.map { _.bounds } ++ circles.map { _.bounds })
     
     
     // COMPUTED PROPERTIES    ----------------
@@ -69,7 +63,7 @@ class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(),
     
     // IMPLEMENTED METHODS    ----------------
     
-    override def transformedWith(transformation: Transformation) = 
+    override def transformedWith(transformation: Transformation) =
     {
         val transformedPolygons = convexPolygons.map { transformation(_) }
         
@@ -110,9 +104,7 @@ class CollisionShape(val convexPolygons: Vector[Polygon] = Vector(),
                     checkCircleToPolygonCollisionWith(other))
         }
         else
-        {
             None
-        }
     }
     
     private def checkBoundsCollisionWith(other: CollisionShape) = bounds.checkCollisionWith(other.bounds)
