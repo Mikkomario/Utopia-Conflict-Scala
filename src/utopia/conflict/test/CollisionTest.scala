@@ -8,7 +8,7 @@ import utopia.genesis.view.CanvasMouseEventGenerator
 import utopia.inception.handling.HandlerRelay
 import utopia.conflict.util.Polygon
 import utopia.genesis.util.Transformation
-import utopia.conflict.util.Extensions._
+import utopia.conflict.collision.Extensions._
 import utopia.genesis.util.Circle
 import utopia.conflict.collision.CollidableHandler
 import utopia.conflict.collision.CollisionHandler

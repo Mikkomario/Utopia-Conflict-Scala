@@ -1,9 +1,8 @@
-package utopia.conflict.util
+package utopia.conflict.collision
 
-import utopia.genesis.shape.shape2D.{Bounds, Circle, Polygonic, TransformableShape, Transformation}
-import utopia.conflict.util.Extensions._
-import utopia.genesis.util.Extensions._
 import utopia.genesis.shape.Vector3D
+import utopia.genesis.shape.shape2D._
+import utopia.genesis.util.Extensions._
 
 object CollisionShape
 {

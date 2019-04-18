@@ -1,4 +1,4 @@
-package utopia.conflict.util
+package utopia.conflict.collision
 
 import utopia.flow.util.Equatable
 import utopia.genesis.shape.Vector3D

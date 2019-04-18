@@ -1,6 +1,6 @@
 package utopia.conflict.handling
 
-import utopia.conflict.util.CollisionShape
+import utopia.conflict.collision.CollisionShape
 import utopia.inception.handling.Handleable
 
 /**

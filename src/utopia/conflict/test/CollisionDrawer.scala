@@ -6,9 +6,9 @@ import utopia.genesis.event.Drawable
 import utopia.genesis.util.Drawer
 import java.awt.Color
 
+import utopia.conflict.collision.Collision
 import utopia.genesis.util.Circle
 import utopia.conflict.handling.{Collidable, CollisionGroup, CollisionListener}
-import utopia.conflict.util.Collision
 import utopia.genesis.util.DepthRange
 
 /**

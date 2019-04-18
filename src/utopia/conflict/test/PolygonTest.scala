@@ -6,7 +6,7 @@ import utopia.genesis.util.Vector3D
 import utopia.genesis.util.Line
 import utopia.conflict.util.RotationDirection.Clockwise
 import utopia.conflict.util.RotationDirection.CounterClockwise
-import utopia.conflict.util.Extensions._
+import utopia.conflict.collision.Extensions._
 import utopia.genesis.util.Bounds
 
 /**

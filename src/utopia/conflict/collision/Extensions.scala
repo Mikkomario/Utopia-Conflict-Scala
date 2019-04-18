@@ -1,34 +1,34 @@
-package utopia.conflict.util
+package utopia.conflict.collision
 
-import utopia.genesis.shape.{Angle, Vector3D}
 import utopia.genesis.shape.shape2D.{Circle, Line, Polygon, Polygonic}
+import utopia.genesis.shape.{Angle, Vector3D}
 
 /**
  * This object contains extensions that are used in the conflict project
  * @author Mikko Hilpinen
  * @since 13.7.2017
  */
-object Extensions
+object xtensions
 {
     implicit class CollisionCircle(val c: Circle) extends AnyVal
     {
         /**
-         * Checks if there's collision between two circles. Returns collision data if there is 
+         * Checks if there's collision between two circles. Returns collision data if there is
          * a collision.
          */
-        def checkCollisionWith(other: Circle) = 
+        def checkCollisionWith(other: Circle) =
         {
             val mtv = c.collisionMtvWith(other)
             mtv.map { new Collision(_, c.circleIntersection(other)) }
         }
         
         /**
-         * Converts this circle into a polygon with the specified amount of edges. The higher the 
-         * amount of edges, the more accurate the representation but the more taxing any operations 
+         * Converts this circle into a polygon with the specified amount of edges. The higher the
+         * amount of edges, the more accurate the representation but the more taxing any operations
          * will be.
          */
         def toPolygon(edgeAmount: Int) = Polygon((
-                for { i <- 0 until edgeAmount } yield c.origin + Vector3D.lenDir(c.radius, 
+                for { i <- 0 until edgeAmount } yield c.origin + Vector3D.lenDir(c.radius,
                 new Angle(math.Pi * 2 * i / edgeAmount))).toVector)
     }
     

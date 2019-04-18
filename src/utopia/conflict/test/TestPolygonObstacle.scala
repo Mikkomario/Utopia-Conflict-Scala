@@ -1,7 +1,6 @@
 package utopia.conflict.test
 
 import utopia.conflict.util.Polygon
-import utopia.conflict.util.CollisionShape
 
 import scala.collection.immutable.HashSet
 import utopia.conflict.test.TestCollisionGroups.Obstacle
@@ -9,6 +8,7 @@ import utopia.genesis.event.Drawable
 import utopia.genesis.util.Drawer
 import java.awt.Color
 
+import utopia.conflict.collision.CollisionShape
 import utopia.conflict.handling.Collidable
 import utopia.genesis.util.Line
 

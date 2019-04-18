@@ -2,7 +2,8 @@ package utopia.conflict.handling
 
 import java.time.Duration
 
-import utopia.conflict.util.{Collision, CollisionShape}
+import utopia.conflict.collision.{Collision, CollisionShape}
+import utopia.conflict.util.CollisionShape
 import utopia.inception.handling.Handleable
 
 /**

@@ -1,8 +1,8 @@
 package utopia.conflict.handling
 
+import utopia.conflict.collision.CollisionShape
 import utopia.inception.handling.HandlerType
 import utopia.inception.handling.Handler
-import utopia.conflict.util.CollisionShape
 
 case object CollidableHandlerType extends HandlerType
 {
