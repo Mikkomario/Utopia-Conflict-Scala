@@ -19,10 +19,13 @@ object PolygonTest extends App
     val polygon = Polygon(Vector(Point.origin, Point(3, 0), Point(3, 3), Point(0, 3)))
     
     // Tests basic vertex and edge accessing
+    assert(polygon.corners.size == 4)
     assert(polygon.vertex(1) == Point(3, 0))
     assert(polygon.vertex(4) == polygon.vertex(0))
     assert(polygon.vertex(-1) == polygon.vertex(3))
     assert(polygon.side(0) == Line(Point.origin, Point(3, 0)))
+    assert(polygon.side(3) == Line(Point(0, 3), Point.origin))
+    assert(polygon.sides.size == 4)
     
     // Tests other computed properties
     assert(polygon.bounds.topLeft == Point.origin)
@@ -45,6 +48,14 @@ object PolygonTest extends App
     assert(part1.corners.size == 3)
 	assert(part2.corners.size == 3)
     assert(part1 != part2)
+    
+    assert(polygon.projectedOver(X) == Line(Point.origin, Point(3, 0)))
+    assert(polygon.projectedOver(Y) == Line(Point.origin, Point(0, 3)))
+    
+    assert(polygon.containsProjection(Point(0.3, 0.1), X.toUnitVector))
+    assert(polygon.containsProjection(Point(0.3, -5), X.toUnitVector))
+    assert(polygon.containsProjection(Point(0.3, 0.1), Y.toUnitVector))
+    assert(!polygon.containsProjection(Point(4, 4), X.toUnitVector))
     
     // Tests containment
     assert(polygon.contains(Point(0.3, 0.1)))
