@@ -160,8 +160,7 @@ object Extensions
     private def clipCollisionPoints(reference: Line, incident: Line, referenceNormal: Vector3D) =
     {
         // First clips the incident edge from both sides
-        val clipped = incident.clipped(reference.start, reference.vector).flatMap
-        { _.clipped(reference.end, -reference.vector) }
+        val clipped = incident.clipped(reference.start, reference.vector).flatMap { _.clipped(reference.end, -reference.vector) }
         
         if (clipped.isDefined)
         {
