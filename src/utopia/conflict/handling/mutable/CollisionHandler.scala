@@ -6,7 +6,7 @@ import utopia.inception.handling.mutable.{Handleable, Handler}
 
 object CollisionHandler
 {
-	def apply(collidableHandler: CollidableHandler = CollidableHandler(), elements: TraversableOnce[CollisionListener] = Vector()) =
+	def apply(collidableHandler: CollidableHandler, elements: TraversableOnce[CollisionListener] = Vector()) =
 		new CollisionHandler(collidableHandler, elements)
 	
 	def apply(collidableHandler: CollidableHandler, first: CollisionListener, more: CollisionListener*) =
