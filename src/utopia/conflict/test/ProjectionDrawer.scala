@@ -1,32 +1,28 @@
 package utopia.conflict.test
 
-import utopia.genesis.util.Projectable
-import utopia.genesis.util.Vector3D
-import utopia.genesis.util.Line
-import utopia.genesis.event.Drawable
 import utopia.genesis.util.Drawer
 import java.awt.Color
-import utopia.genesis.event.MouseButtonStateHandlerType
-import utopia.genesis.event.MouseButtonStateListener
+
 import utopia.genesis.event.MouseButtonStateEvent
 import utopia.genesis.event.MouseButton
-import utopia.genesis.event.MouseMoveListener
 import utopia.genesis.event.MouseMoveEvent
-import utopia.genesis.util.Transformation
+import utopia.genesis.handling.mutable.MouseButtonStateListener
+import utopia.genesis.handling.{Drawable, MouseMoveListener}
+import utopia.genesis.shape.shape2D.{Line, Point, Projectable, Transformation}
 
 /**
  * This object visually displays shape projection on a line drawn by the user
  * @author Mikko Hilpinen
  * @since 5.8.2017
  */
-class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButtonStateListener 
+class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButtonStateListener
         with MouseMoveListener
 {
     // ATTRIBUTES    ---------------------
     
-    private var lastClickPosition = Vector3D.zero
-    private var mouseLine = Line(Vector3D.zero, Vector3D.zero)
-    private var projection = Line(Vector3D.zero, Vector3D.zero)
+    private var lastClickPosition = Point.origin
+    private var mouseLine = Line.zero
+    private var projection = Line.zero
     
     
     // IMPLEMENTED PROPERTIES    ---------
@@ -37,7 +33,7 @@ class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButto
     // INITIAL CODE    -------------------
     
     // Mouse clicks are always listened while other events are ignored while the mouse is not down
-    specifyHandlingState(MouseButtonStateHandlerType)
+    isReceivingMouseButtonStateEvents = false
     defaultHandlingState = false
     
     
@@ -55,8 +51,8 @@ class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButto
         {
             // On mouse press, starts listening to other events again, resets drawn lines
             lastClickPosition = event.mousePosition
-            mouseLine = Line(Vector3D.zero, Vector3D.zero)
-            projection = Line(Vector3D.zero, Vector3D.zero)
+            mouseLine = Line.zero
+            projection = Line.zero
             
             defaultHandlingState = true
         }
@@ -70,6 +66,6 @@ class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButto
     {
         // Creates a new projection
         mouseLine = Line(lastClickPosition, event.mousePosition)
-        projection = Transformation.translation(lastClickPosition)(target.projectedOver(mouseLine.vector))
+        projection = Transformation.translation(lastClickPosition.toVector)(target.projectedOver(mouseLine.vector))
     }
 }

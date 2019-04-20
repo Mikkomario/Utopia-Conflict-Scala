@@ -1,13 +1,10 @@
 package utopia.conflict.test
 
 import utopia.genesis.generic.GenesisDataType
-import utopia.conflict.util.Polygon
-import utopia.genesis.util.Vector3D
-import utopia.genesis.util.Line
-import utopia.conflict.util.RotationDirection.Clockwise
-import utopia.conflict.util.RotationDirection.CounterClockwise
+import utopia.genesis.shape.RotationDirection.{Clockwise, Counterclockwise}
+import utopia.genesis.shape.{Vector3D, X, Y}
+import utopia.genesis.shape.shape2D.{Bounds, Line, Point, Polygon, Size}
 import utopia.conflict.collision.Extensions._
-import utopia.genesis.util.Bounds
 
 /**
  * This test tests the basic polygon features
@@ -19,62 +16,64 @@ object PolygonTest extends App
     GenesisDataType.setup()
     
     // Square
-    val polygon = Polygon(Vector(Vector3D.zero, Vector3D(3), Vector3D(3, 3), Vector3D(0, 3)))
+    val polygon = Polygon(Vector(Point.origin, Point(3, 0), Point(3, 3), Point(0, 3)))
     
     // Tests basic vertex and edge accessing
-    assert(polygon.vertex(1) == Vector3D(3))
+    assert(polygon.vertex(1) == Point(3, 0))
     assert(polygon.vertex(4) == polygon.vertex(0))
     assert(polygon.vertex(-1) == polygon.vertex(3))
-    assert(polygon.edge(0) == Line(Vector3D.zero, Vector3D(3)))
+    assert(polygon.side(0) == Line(Point.origin, Point(3, 0)))
     
     // Tests other computed properties
-    assert(polygon.topLeft == Vector3D.zero)
-    assert(polygon.bottomRight == Vector3D(3, 3))
+    assert(polygon.bounds.topLeft == Point.origin)
+    assert(polygon.bounds.bottomRight == Point(3, 3))
     
     assert(polygon.rotationDirection == Clockwise)
     assert(polygon.isConvex)
-    assert(polygon.axes.size == 2)
-    assert(polygon.axes.exists { _ isParallelWith Vector3D(1) })
+    assert(polygon.collisionAxes.size == 2)
+    assert(polygon.collisionAxes.exists { _ isParallelWith X })
+	assert(polygon.collisionAxes.exists { _ isParallelWith Y })
     assert(polygon.convexParts.contains(polygon))
     
-    assert(polygon.center == Vector3D(1.5, 1.5))
+    assert(polygon.center == Point(1.5, 1.5))
     assert(polygon.circleAround == polygon.circleInside)
-    assert(polygon.circleAround.contains(Vector3D.zero))
+    assert(polygon.circleAround.contains(Point.origin))
     
     // Tests polygon splitting
-    val parts = polygon.cutBetween(0, 2)
+    val (part1, part2) = polygon.cutBetween(0, 2)
     
-    assert(parts.size == 2)
-    assert(parts.forall { _.size == 3 })
-    assert(parts(0) != parts(1))
+    assert(part1.corners.size == 3)
+	assert(part2.corners.size == 3)
+    assert(part1 != part2)
     
     // Tests containment
-    assert(polygon.contains(Vector3D(0.3, 0.1)))
-    assert(polygon.contains(Vector3D(1.5, 1.5)))
-    assert(polygon.contains(Vector3D.zero))
+    assert(polygon.contains(Point(0.3, 0.1)))
+    assert(polygon.contains(Point(1.5, 1.5)))
+    assert(polygon.contains(Point.origin))
+	assert(!polygon.contains(Point(-0.4, 2)))
+	assert(!polygon.contains(Point(1.5, 4)))
     
     // Sand glass
-    val polygon2 = Polygon(Vector(Vector3D.zero, Vector3D(0.5, 1), Vector3D(0, 2), Vector3D(2, 2), 
-            Vector3D(1.5, 1), Vector3D(2, 0)));
+    val polygon2 = Polygon(Vector(Point.origin, Point(0.5, 1), Point(0, 2), Point(2, 2), Point(1.5, 1), Point(2, 0)))
     
-    assert(polygon2.rotationDirection == CounterClockwise)
+    assert(polygon2.rotationDirection == Counterclockwise)
     assert(!polygon2.isConvex)
     
     val parts2 = polygon2.convexParts // polygon2.cutBetween(1, 4)
     
     assert(parts2.size == 2)
     assert(parts2.forall { _.isConvex })
-    assert(parts2.forall { _.size == 4 })
+    assert(parts2.forall { _.corners.size == 4 })
     
-    assert(polygon.projectedOver(Vector3D(1)) == Line(Vector3D.zero, Vector3D(3)))
-    assert(polygon.projectedOver(Vector3D(0, 1)) == Line(Vector3D.zero, Vector3D(0, 3)))
+    assert(polygon.projectedOver(X) == Line(Point.origin, Point(3, 0)))
+    assert(polygon.projectedOver(Y) == Line(Point.origin, Point(0, 3)))
     
     // Tests collision recognition
-    val outsideBox = Bounds(Vector3D(0, -2), Vector3D(1, 1))
+    val outsideBox = Bounds(Point(0, -2), Size(1, 1))
     
-    assert(polygon.checkCollisionWith(outsideBox) == None)
+    assert(polygon.checkCollisionWith(outsideBox).isEmpty)
     
-    val overlappingBox = Bounds(Vector3D(1, -1), Vector3D(1, 2))
+    val overlappingBox = Bounds(Point(1, -1), Size(1, 2))
     val collision1 = overlappingBox.checkCollisionWith(polygon)
     
     assert(collision1.isDefined)
@@ -82,7 +81,7 @@ object PolygonTest extends App
     
     println(collision1.get.collisionPoints)
     
-    val boxInside = Bounds(Vector3D(1.5, 1), Vector3D(1, 1))
+    val boxInside = Bounds(Point(1.5, 1), Size(1, 1))
     val collision2 = boxInside.checkCollisionWith(polygon)
     
     assert(collision2.isDefined)

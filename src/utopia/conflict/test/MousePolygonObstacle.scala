@@ -2,23 +2,22 @@ package utopia.conflict.test
 
 import utopia.conflict.collision.CollisionShape
 import utopia.conflict.handling.Collidable
-import utopia.conflict.util.Polygon
-import utopia.genesis.util.Transformation
 
 import scala.collection.immutable.HashSet
-import utopia.conflict.test.TestCollisionGroups.Obstacle
 import utopia.conflict.test.TestCollisionGroups.UserInput
-import utopia.genesis.event.Drawable
 import utopia.genesis.util.Drawer
-import utopia.genesis.event.MouseMoveListener
 import utopia.genesis.event.MouseMoveEvent
+import utopia.genesis.handling.{Drawable, MouseMoveListener}
+import utopia.genesis.shape.shape2D.{Polygonic, Transformation}
+import utopia.inception.handling.immutable.Handleable
 
 /**
  * This polygon-shaped obstacle moves along with the mouse
  * @author Mikko Hilpinen
  * @since 4.8.2017
  */
-class MousePolygonObstacle(private val relativePolygon: Polygon) extends Collidable with Drawable with MouseMoveListener
+class MousePolygonObstacle(private val relativePolygon: Polygonic) extends Collidable with Drawable
+    with MouseMoveListener with Handleable
 {
     // ATTRIBUTES    ------------------
     
@@ -37,5 +36,6 @@ class MousePolygonObstacle(private val relativePolygon: Polygon) extends Collida
     
     override def draw(drawer: Drawer) = drawer.transformed(currentTransformation).draw(relativePolygon)
     
-    override def onMouseMove(event: MouseMoveEvent) = currentTransformation = Transformation.translation(event.mousePosition)
+    override def onMouseMove(event: MouseMoveEvent) = currentTransformation = Transformation.translation(
+        event.mousePosition.toVector)
 }

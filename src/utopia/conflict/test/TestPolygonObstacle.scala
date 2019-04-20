@@ -1,23 +1,22 @@
 package utopia.conflict.test
 
-import utopia.conflict.util.Polygon
-
 import scala.collection.immutable.HashSet
 import utopia.conflict.test.TestCollisionGroups.Obstacle
-import utopia.genesis.event.Drawable
 import utopia.genesis.util.Drawer
 import java.awt.Color
 
 import utopia.conflict.collision.CollisionShape
 import utopia.conflict.handling.Collidable
-import utopia.genesis.util.Line
+import utopia.genesis.handling.Drawable
+import utopia.genesis.shape.shape2D.{Line, Polygonic}
+import utopia.inception.handling.immutable.Handleable
 
 /**
  * These are some obstacles that can be used in the tests
  * @author Mikko Hilpinen
  * @since 4.8.2017
  */
-class TestPolygonObstacle(private val polygon: Polygon) extends Collidable with Drawable
+class TestPolygonObstacle(private val polygon: Polygonic) extends Collidable with Drawable with Handleable
 {
     // IMPLEMENTED PROPERTIES    --------------------
     
@@ -31,8 +30,8 @@ class TestPolygonObstacle(private val polygon: Polygon) extends Collidable with 
     override def draw(drawer: Drawer) = 
     {
         drawer.draw(polygon)
-        val orangeDrawer = drawer.withEdgeColor(Some(Color.ORANGE))
+        val orangeDrawer = drawer.withEdgeColor(Color.ORANGE)
         val centerPoint = polygon.center
-        polygon.axes.foreach { axis => orangeDrawer.draw(Line(centerPoint, centerPoint + axis * 100)) }
+        polygon.collisionAxes.foreach { axis => orangeDrawer.draw(Line(centerPoint, centerPoint + axis * 100)) }
     }
 }

@@ -8,7 +8,7 @@ import utopia.genesis.shape.{Angle, Vector3D}
  * @author Mikko Hilpinen
  * @since 13.7.2017
  */
-object xtensions
+object Extensions
 {
     implicit class CollisionCircle(val c: Circle) extends AnyVal
     {
@@ -90,7 +90,8 @@ object xtensions
           */
         def collisionPoints(other: Polygonic, collisionNormal: Vector3D) =
         {
-            edgeCollisionClip(other.collisionEdge(-collisionNormal), collisionNormal)
+            val c: CollisionPolygon = other
+            edgeCollisionClip(c.collisionEdge(-collisionNormal), collisionNormal)
         }
     
         /*

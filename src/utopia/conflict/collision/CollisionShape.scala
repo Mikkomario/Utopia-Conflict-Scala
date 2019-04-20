@@ -3,13 +3,14 @@ package utopia.conflict.collision
 import utopia.genesis.shape.Vector3D
 import utopia.genesis.shape.shape2D._
 import utopia.genesis.util.Extensions._
+import utopia.conflict.collision.Extensions._
 
 object CollisionShape
 {
     /**
      * Wraps a polygon into a collision shape
      */
-    def apply(polygon: Polygonic) = new CollisionShape(polygon.convexParts)
+    def apply(polygon: Polygonic) = new CollisionShape(polygon.convexParts, Vector(), 12)
     
     /**
      * Wraps a circle into a collision shape with the specified precision
@@ -17,8 +18,7 @@ object CollisionShape
      * @param circleToPolygonEdges the amount of edges used when approximating a circle or an ellipsoid 
  	 * with a polygon
      */
-    def apply(circle: Circle, circleToPolygonEdges: Int = 12) = new CollisionShape(
-            circles = Vector(circle), circleToPolygonEdges = circleToPolygonEdges)
+    def apply(circle: Circle, circleToPolygonEdges: Int = 12) = new CollisionShape(Vector(), Vector(circle), circleToPolygonEdges)
 }
 
 /**
@@ -33,8 +33,8 @@ object CollisionShape
  * @param circleToPolygonEdges the amount of edges used when approximating a circle or an ellipsoid 
  * with a polygon
  */
-case class CollisionShape(convexPolygons: Vector[Polygonic] = Vector(), circles: Vector[Circle] = Vector(),
-                          circleToPolygonEdges: Int = 12) extends TransformableShape[CollisionShape]
+case class CollisionShape(convexPolygons: Vector[Polygonic], circles: Vector[Circle],
+                          circleToPolygonEdges: Int) extends TransformableShape[CollisionShape]
 {
     // ATTRIBUTES    -------------------------
     
@@ -71,12 +71,12 @@ case class CollisionShape(convexPolygons: Vector[Polygonic] = Vector(), circles:
         {
             val transformedCircles = circles.map { original => 
                     Circle(transformation(original.origin), original.radius * transformation.scaling.x) }
-            new CollisionShape(transformedPolygons, transformedCircles)
+            new CollisionShape(transformedPolygons, transformedCircles, circleToPolygonEdges)
         }
         else 
         {
-            val transformedCirclePolygons = circlesAsPolygons.map { transformation(_) }
-            new CollisionShape(transformedPolygons ++ transformedCirclePolygons)
+            val transformedCirclePolygons = circlesAsPolygons.map { _.transformedWith(transformation) }
+            new CollisionShape(transformedPolygons ++ transformedCirclePolygons, Vector(), circleToPolygonEdges)
         }
     }
     

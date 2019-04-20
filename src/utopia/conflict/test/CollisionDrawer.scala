@@ -1,15 +1,16 @@
 package utopia.conflict.test
 
-import utopia.genesis.util.Vector3D
-import utopia.genesis.util.Line
-import utopia.genesis.event.Drawable
 import utopia.genesis.util.Drawer
 import java.awt.Color
+import java.time.Duration
 
 import utopia.conflict.collision.Collision
-import utopia.genesis.util.Circle
 import utopia.conflict.handling.{Collidable, CollisionGroup, CollisionListener}
+import utopia.genesis.handling.Drawable
+import utopia.genesis.shape.VectorLike
+import utopia.genesis.shape.shape2D.{Circle, Line, Point}
 import utopia.genesis.util.DepthRange
+import utopia.inception.handling.immutable.Handleable
 
 /**
  * A collision drawer draws collision points and mtv data visually on the screen based on the events 
@@ -17,12 +18,13 @@ import utopia.genesis.util.DepthRange
  * @author Mikko Hilpinen
  * @since 4.8.2017
  */
-class CollisionDrawer(target: Collidable, listenGroups: Option[Set[CollisionGroup]] = None) extends Drawable with CollisionListener
+class CollisionDrawer(target: Collidable, listenGroups: Option[Set[CollisionGroup]] = None) extends Drawable
+    with CollisionListener with Handleable
 {
     // ATTRIBUTES    ---------------------
     
-    private var collisionPoints = Vector[Vector3D]()
-    private var mtv = Line(Vector3D.zero, Vector3D.zero)
+    private var collisionPoints = Vector[Point]()
+    private var mtv = Line.zero
     
     
     // IMPLEMENTED PROPERTIES    --------
@@ -31,7 +33,7 @@ class CollisionDrawer(target: Collidable, listenGroups: Option[Set[CollisionGrou
     
     override def targetCollisionGroups = listenGroups
     
-    override def depth = DepthRange.foreground
+    override def drawDepth = DepthRange.foreground
     
     
     // IMPLEMENTED METHODS    -----------
@@ -43,7 +45,7 @@ class CollisionDrawer(target: Collidable, listenGroups: Option[Set[CollisionGrou
         drawer.withEdgeColor(Some(Color.RED)).draw(mtv)
     }
     
-    override def onCollision(collisions: Vector[Tuple2[Collidable, Collision]], durationMillis: Double) = 
+    override def onCollision(collisions: Vector[(Collidable, Collision)], duration: Duration) =
     {
         println(s"Collides with ${collisions.size} instances")
         
@@ -55,11 +57,11 @@ class CollisionDrawer(target: Collidable, listenGroups: Option[Set[CollisionGrou
             
             if (collisionPoints.isEmpty)
             {
-                mtv = Line(Vector3D.zero, Vector3D.zero)
+                mtv = Line.zero
             }
             else
             {
-                val mtvStart = Vector3D.average(collisionPoints)
+                val mtvStart: Point = VectorLike.average(collisionPoints)
                 mtv = Line(mtvStart, mtvStart + collision.get.mtv)
             }
         }
