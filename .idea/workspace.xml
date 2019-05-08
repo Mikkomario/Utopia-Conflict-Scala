@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="utopia-conflict" />
+      <artifact name="utopia-conflict-with-dependencies:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="24630851-d3a9-414a-b28e-1d66e070685d" name="Default Changelist" comment="" />
+    <list default="true" id="24630851-d3a9-414a-b28e-1d66e070685d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utopia/conflict/test/PolygonTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/utopia/conflict/test/PolygonTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utopia/conflict/test/ProjectionDrawer.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/utopia/conflict/test/ProjectionDrawer.scala" afterDir="false" />
+    </list>
     <ignored path="out/" />
     <ignored path="../Utopia-Genesis-Scala/out/" />
     <ignored path="../Utopia-Inception-Scala/out/" />
@@ -14,6 +24,19 @@
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/utopia/conflict/test/ProjectionDrawer.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="61" column="9" lean-forward="true" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -37,7 +60,7 @@
         <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
-    <option name="RECENT_COMMON_BRANCH" value="development" />
+    <option name="RECENT_COMMON_BRANCH" value="master" />
     <favorite-branches>
       <branch-storage>
         <map>
@@ -62,7 +85,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/handling/MouseMoveListener.scala" />
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/handling/mutable/MouseMoveListener.scala" />
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/handling/MouseOverListener.scala" />
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/handling/MouseWheelListener.scala" />
@@ -100,7 +122,6 @@
         <option value="$PROJECT_DIR$/../Utopia-Flow-Scala/README.txt" />
         <option value="$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/ModelTest.scala" />
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/shape/shape2D/Polygonic.scala" />
-        <option value="$PROJECT_DIR$/src/utopia/conflict/test/PolygonTest.scala" />
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/shape/shape2D/Projectable.scala" />
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/test/ShapeTest.scala" />
         <option value="$PROJECT_DIR$/src/utopia/conflict/collision/Extensions.scala" />
@@ -109,17 +130,18 @@
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/util/DefaultSetup.scala" />
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/test/ClippingTest.scala" />
         <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/test/KeyTest.scala" />
-        <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/README.txt" />
         <option value="$PROJECT_DIR$/src/utopia/conflict/util/DefaultSetup.scala" />
         <option value="$PROJECT_DIR$/src/utopia/conflict/handling/mutable/CollisionHandler.scala" />
         <option value="$PROJECT_DIR$/src/utopia/conflict/test/CollisionTest.scala" />
+        <option value="$PROJECT_DIR$/../Utopia-Genesis-Scala/README.txt" />
+        <option value="$PROJECT_DIR$/src/utopia/conflict/test/PolygonTest.scala" />
+        <option value="$PROJECT_DIR$/src/utopia/conflict/test/ProjectionDrawer.scala" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="501" />
-    <option name="y" value="-30" />
-    <option name="width" value="2544" />
+    <option name="x" value="-12" />
+    <option name="width" value="2451" />
     <option name="height" value="2112" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -131,15 +153,30 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Utopia-Conflict-Scala" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Utopia-Conflict-Scala" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Utopia-Conflict-Scala" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Utopia-Conflict-Scala" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Utopia-Flow-Scala/out" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
@@ -165,7 +202,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.CollisionTest">
     <configuration name="ClippingTest" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="utopia.genesis.test.ClippingTest" />
       <module name="Utopia-Genesis-Scala" />
@@ -233,11 +270,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CollisionTest" />
-        <item itemvalue="Application.KeyTest" />
-        <item itemvalue="Application.ClippingTest" />
         <item itemvalue="Application.ShapeTest" />
         <item itemvalue="Application.PolygonTest" />
+        <item itemvalue="Application.KeyTest" />
+        <item itemvalue="Application.CollisionTest" />
+        <item itemvalue="Application.ClippingTest" />
       </list>
     </recent_temporary>
   </component>
@@ -319,21 +356,35 @@
       <option name="project" value="LOCAL" />
       <updated>1555780000906</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Built Conflict">
+      <created>1555783954250</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1555783954250</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Genesis build artifacts added">
+      <created>1555786236178</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1555786236178</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="2575" height="1415" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="Designer" order="1" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Learn" order="3" />
       <window_info id="Capture Tool" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.21891141" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.22367898" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" weight="0.32943925" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" weight="0.32943925" />
       <window_info anchor="bottom" id="Message" order="2" />
@@ -344,6 +395,7 @@
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="9" />
+      <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.32943925" />
       <window_info anchor="right" id="Theme Preview" order="0" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Palette&#9;" order="2" />
@@ -365,16 +417,11 @@
     <MESSAGE value="Tested and debugged Polygonic" />
     <MESSAGE value="Tested shapes and collision detection" />
     <MESSAGE value="Added DefaultSetups for easy program setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added DefaultSetups for easy program setup" />
+    <MESSAGE value="Built Conflict" />
+    <MESSAGE value="Genesis build artifacts added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Genesis build artifacts added" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/util/Extensions.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1000">
-          <caret line="56" column="5" lean-forward="true" selection-start-line="56" selection-start-column="5" selection-end-line="56" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utopia/conflict/collision/CollisionShape.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="980">
@@ -392,20 +439,6 @@
           <folding>
             <element signature="e#29#54#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Inception-Scala/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -440,13 +473,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/GraphTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/GraphTest.scala" />
     <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/datastructure/mutable/Tree.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
@@ -475,13 +502,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/TreeNodeTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="676">
-          <caret line="43" column="4" lean-forward="true" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/TreeNodeTest.scala" />
     <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/datastructure/template/TreeLike.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
@@ -544,53 +565,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/JSONTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="73" column="53" lean-forward="true" selection-start-line="73" selection-start-column="53" selection-end-line="73" selection-end-column="53" />
-          <folding>
-            <element signature="e#26#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/ValueAccessorTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="25" column="45" lean-forward="true" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
-          <folding>
-            <element signature="e#26#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="41" column="20" lean-forward="true" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/DataTypeTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="39" column="4" lean-forward="true" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="4" />
-          <folding>
-            <element signature="e#26#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/ModelTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="940">
-          <caret line="47" column="4" lean-forward="true" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
-          <folding>
-            <element signature="e#26#76#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/JSONTest.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/ValueAccessorTest.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/DataTypeTest.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/ModelTest.scala" />
     <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/datastructure/mutable/Model.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-60">
@@ -608,20 +586,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/CollectionTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/AsyncTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/CollectionTest.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/src/utopia/flow/test/AsyncTest.scala" />
     <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/test/ShapeTest.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -632,13 +598,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/test/PolygonTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utopia/conflict/collision/Extensions.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1671">
@@ -646,51 +605,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/shape/Rotation.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="59" column="42" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/shape/shape2D/Projectable.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="59" column="65" lean-forward="true" selection-start-line="59" selection-start-column="65" selection-end-line="59" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/shape/shape2D/Polygonic.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="234" column="78" selection-start-line="234" selection-start-column="78" selection-end-line="234" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Inception-Scala/src/utopia/inception/handling/immutable/Handler.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
-          <folding>
-            <element signature="e#45#87#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Inception-Scala/src/utopia/inception/handling/mutable/Handler.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="36" column="4" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Inception-Scala/src/utopia/inception/handling/mutable/DeepHandler.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="28" column="36" lean-forward="true" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/shape/Rotation.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/shape/shape2D/Projectable.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/shape/shape2D/Polygonic.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Inception-Scala/src/utopia/inception/handling/immutable/Handler.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Inception-Scala/src/utopia/inception/handling/mutable/Handler.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Inception-Scala/src/utopia/inception/handling/mutable/DeepHandler.scala" />
     <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/view/Canvas.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
@@ -698,26 +618,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/util/Setup.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="46" column="7" lean-forward="true" selection-start-line="46" selection-start-column="7" selection-end-line="46" selection-end-column="7" />
-          <folding>
-            <element signature="e#29#72#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/util/DefaultSetup.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-          <folding>
-            <element signature="e#29#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/util/Setup.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/util/DefaultSetup.scala" />
     <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/src/utopia/genesis/test/ClippingTest.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-227">
@@ -742,37 +644,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/handling/mutable/CollisionHandler.scala" />
+    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/test/CollisionTest.scala" />
+    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/util/DefaultSetup.scala" />
+    <entry file="file://$PROJECT_DIR$/../Utopia-Flow-Scala/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1139">
+          <caret line="89" column="34" lean-forward="true" selection-start-line="59" selection-start-column="4" selection-end-line="89" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Utopia-Inception-Scala/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../Utopia-Genesis-Scala/README.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-464">
-          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+        <state relative-caret-position="720">
+          <caret line="69" column="55" lean-forward="true" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/handling/mutable/CollisionHandler.scala">
+    <entry file="file://$PROJECT_DIR$/README.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
+        <state relative-caret-position="220">
+          <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/test/CollisionTest.scala">
+    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/test/PolygonTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="24" column="4" lean-forward="true" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+        <state relative-caret-position="280">
+          <caret line="14" column="30" lean-forward="true" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
           <folding>
-            <element signature="e#30#86#0" expanded="true" />
+            <element signature="e#30#75#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/util/DefaultSetup.scala">
+    <entry file="file://$PROJECT_DIR$/src/utopia/conflict/test/ProjectionDrawer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="24" column="62" selection-start-line="24" selection-start-column="62" selection-end-line="24" selection-end-column="62" />
-          <folding>
-            <element signature="e#30#107#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="513">
+          <caret line="61" column="9" lean-forward="true" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -782,10 +698,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>utopia-conflict-with-dependencies:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -826,12 +744,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Utopia-Inception-Scala</last-edited>
+          <last-edited>Utopia-Flow-Scala</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

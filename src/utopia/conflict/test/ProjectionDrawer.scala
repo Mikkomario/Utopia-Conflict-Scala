@@ -60,6 +60,7 @@ class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButto
         {
             defaultHandlingState = false
         }
+        false
     }
     
     override def onMouseMove(event: MouseMoveEvent) = 
