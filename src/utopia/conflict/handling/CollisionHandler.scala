@@ -1,10 +1,10 @@
 package utopia.conflict.handling
 
-import java.time.Duration
-
 import utopia.genesis.handling.Actor
 import utopia.inception.handling.HandlerType
 import utopia.inception.handling.Handler
+
+import scala.concurrent.duration.FiniteDuration
 
 case object CollisionHandlerType extends HandlerType
 {
@@ -32,7 +32,7 @@ trait CollisionHandler extends Handler[CollisionListener] with Actor
     
     override def handlerType = CollisionHandlerType
     
-    override def act(duration: Duration) =
+    override def act(duration: FiniteDuration) =
     {
         // Checks collisions for each listener
         handle

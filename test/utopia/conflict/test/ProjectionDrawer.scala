@@ -1,8 +1,7 @@
 package utopia.conflict.test
 
+import utopia.genesis.color.Color
 import utopia.genesis.util.Drawer
-import java.awt.Color
-
 import utopia.genesis.event.MouseButtonStateEvent
 import utopia.genesis.event.MouseButton
 import utopia.genesis.event.MouseMoveEvent
@@ -41,8 +40,8 @@ class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButto
     
     override def draw(drawer: Drawer) = 
     {
-        drawer.withEdgeColor(Some(Color.GRAY)).draw(mouseLine)
-        drawer.withEdgeColor(Some(Color.RED)).draw(projection)
+        drawer.withEdgeColor(Color.gray(0.5)).draw(mouseLine)
+        drawer.withEdgeColor(Color.red).draw(projection)
     }
     
     override def onMouseButtonState(event: MouseButtonStateEvent) = 
@@ -60,7 +59,7 @@ class ProjectionDrawer(val target: Projectable) extends Drawable with MouseButto
         {
             defaultHandlingState = false
         }
-        false
+        None
     }
     
     override def onMouseMove(event: MouseMoveEvent) = 

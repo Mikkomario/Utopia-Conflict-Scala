@@ -40,6 +40,14 @@ Available Extensions
         - Adds conversion from Circles to Polygons
 
 
+v 1.1 (beta)    --------------
+
+    Updates & Changes
+    -----------------
+
+        CollisionListeners now take FiniteDuration as a duration parameter instead of java.time.Duration
+
+
 v1  --------------------------
 
     New Features

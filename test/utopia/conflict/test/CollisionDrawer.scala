@@ -1,16 +1,17 @@
 package utopia.conflict.test
 
 import utopia.genesis.util.Drawer
-import java.awt.Color
-import java.time.Duration
 
 import utopia.conflict.collision.Collision
 import utopia.conflict.handling.{Collidable, CollisionGroup, CollisionListener}
+import utopia.genesis.color.Color
 import utopia.genesis.handling.Drawable
 import utopia.genesis.shape.VectorLike
 import utopia.genesis.shape.shape2D.{Circle, Line, Point}
 import utopia.genesis.util.DepthRange
 import utopia.inception.handling.immutable.Handleable
+
+import scala.concurrent.duration.FiniteDuration
 
 /**
  * A collision drawer draws collision points and mtv data visually on the screen based on the events 
@@ -40,12 +41,12 @@ class CollisionDrawer(target: Collidable, listenGroups: Option[Set[CollisionGrou
     
     override def draw(drawer: Drawer) = 
     {
-        val greenDrawer = drawer.withEdgeColor(Some(Color.GREEN))
+        val greenDrawer = drawer.withEdgeColor(Color.green)
         collisionPoints.map { Circle(_, 2) }.foreach(greenDrawer.draw)
-        drawer.withEdgeColor(Some(Color.RED)).draw(mtv)
+        drawer.withEdgeColor(Color.red).draw(mtv)
     }
     
-    override def onCollision(collisions: Vector[(Collidable, Collision)], duration: Duration) =
+    override def onCollision(collisions: Vector[(Collidable, Collision)], duration: FiniteDuration) =
     {
         println(s"Collides with ${collisions.size} instances")
         
