@@ -2,7 +2,8 @@ package utopia.conflict.test
 
 import utopia.genesis.generic.GenesisDataType
 import utopia.genesis.shape.RotationDirection.{Clockwise, Counterclockwise}
-import utopia.genesis.shape.{Vector3D, X, Y}
+import utopia.genesis.shape.Vector3D
+import utopia.genesis.shape.Axis._
 import utopia.genesis.shape.shape2D.{Bounds, Line, Point, Polygon, Size}
 import utopia.conflict.collision.Extensions._
 

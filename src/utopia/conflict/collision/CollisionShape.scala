@@ -34,7 +34,7 @@ object CollisionShape
  * with a polygon
  */
 case class CollisionShape(convexPolygons: Vector[Polygonic], circles: Vector[Circle],
-                          circleToPolygonEdges: Int) extends TransformableShape[CollisionShape]
+                          circleToPolygonEdges: Int) extends TransformProjectable[CollisionShape]
 {
     // ATTRIBUTES    -------------------------
     

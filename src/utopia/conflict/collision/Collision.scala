@@ -2,7 +2,7 @@ package utopia.conflict.collision
 
 import utopia.flow.util.Equatable
 import utopia.genesis.shape.Vector3D
-import utopia.genesis.shape.shape2D.{Point, TransformableShape, Transformation}
+import utopia.genesis.shape.shape2D.{Point, TransformProjectable, Transformation}
 
 /**
  * Collision instances contain information about a collision event
@@ -15,7 +15,7 @@ import utopia.genesis.shape.shape2D.{Point, TransformableShape, Transformation}
  * involved in the collision event. The function is called when the points are requested for the 
  * first time
  */
-class Collision(val mtv: Vector3D, calculateCollisionPoints: => Vector[Point]) extends TransformableShape[Collision]
+class Collision(val mtv: Vector3D, calculateCollisionPoints: => Vector[Point]) extends TransformProjectable[Collision]
     with Equatable
 {
     // ATTRIBUTES    ---------------------

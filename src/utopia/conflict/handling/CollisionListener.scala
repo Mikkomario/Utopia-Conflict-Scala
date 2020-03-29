@@ -1,9 +1,9 @@
 package utopia.conflict.handling
 
-import java.time.Duration
-
 import utopia.conflict.collision.{Collision, CollisionShape}
 import utopia.inception.handling.Handleable
+
+import scala.concurrent.duration.FiniteDuration
 
 /**
  * Instances implementing CollisionListener trait will continuously be informed about collisions
@@ -32,5 +32,5 @@ trait CollisionListener extends Handleable
      * @param collisions the collisions that took place, each with the associated collidable instance
      * @param duration the time duration since the last collision check
      */
-    def onCollision(collisions: Vector[(Collidable, Collision)], duration: Duration)
+    def onCollision(collisions: Vector[(Collidable, Collision)], duration: FiniteDuration)
 }
