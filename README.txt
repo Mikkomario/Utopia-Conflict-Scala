@@ -7,12 +7,11 @@ Required Libraries
     - Utopia Inception
     - Utopia Genesis
 
-
 Purpose
 -------
 
-    Utopia Conflict handles 2D collision detection and collision events, which are a complex feature often used in
-    various real-time games.
+    Utopia Conflict handles 2D collision detection and collision events, which are a relatively complex feature often
+    used in various real-time games.
 
 
 Main Features
@@ -25,11 +24,12 @@ Main Features
         - Collision events provide access to collision (intersection) points as well as a minimum translation
         vector (MTV) which helps the receiver to resolve the collision situation (with translation, for example)
 
-
 Usage Notes
 -----------
 
     CollisionHandler needs to be added to an ActorHandler in order to work
+
+    Alternatively you can replace utopia.genesis.util.DefaultSetup with utopia.conflict.util.DefaultSetup
 
 
 Available Extensions
@@ -40,12 +40,21 @@ Available Extensions
         - Adds conversion from Circles to Polygons
 
 
-v 1.1 (beta)    --------------
+v 1.1   ------------------------
 
     Updates & Changes
     -----------------
 
+        Support for latest Flow and Genesis
+
         CollisionListeners now take FiniteDuration as a duration parameter instead of java.time.Duration
+
+
+    Required Libraries
+    ------------------
+        - Utopia Flow v1.6.1+
+        - Utopia Inception v2+
+        - Utopia Genesis v2.1+
 
 
 v1  --------------------------
